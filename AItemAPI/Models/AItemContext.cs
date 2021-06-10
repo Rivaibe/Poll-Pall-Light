@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AItemAPI.Models
 {
-    class AItemContext : DbContext
+    public class AItemContext : DbContext
     {
         public AItemContext(DbContextOptions<AItemContext> options) : base(options)
         {

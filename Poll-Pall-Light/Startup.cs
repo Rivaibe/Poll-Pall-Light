@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AItemAPI.Models;
 
 namespace Poll_Pall_Light
 {
@@ -32,6 +33,8 @@ namespace Poll_Pall_Light
 		{
 			services.AddDbContext<PollContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddScoped<IAService, AService>();
+			services.AddDbContext<AItemContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+				b => b.MigrationsAssembly("Poll-Pall-Light")));
 
 			//services.AddScoped<IQService, QService>();
 			services.AddScoped<IPollService, PollService>();
