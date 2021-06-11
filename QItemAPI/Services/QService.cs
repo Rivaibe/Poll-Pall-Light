@@ -1,24 +1,21 @@
-﻿using Poll_Pall_Light.Models.QnA;
+﻿using QItemAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Poll_Pall_Light.Services
+namespace QItemAPI.Services
 {
-    public class QService
+    public class QService : IQService
     {
         private List<QItem> qItems;
-        private ICollection<int> DumyCollection;
 
         public List<QItem> GetQItems()
         {
-            DumyCollection.Add(1);
-            DumyCollection.Add(2);
             qItems = new List<QItem>
             {
-                new QItem{ID = 1, aItemsID = DumyCollection, Title = "Qtesttitle"},
-                new QItem{ID = 2, aItemsID = DumyCollection, Title = "QAndertesttitle"}
+                new QItem{ID = 1, Title = "Qtesttitle"},
+                new QItem{ID = 2,Title = "QAndertesttitle"}
             };
 
             return qItems;

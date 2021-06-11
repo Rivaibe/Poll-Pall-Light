@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Poll_Pall_Light.Migrations
+namespace Poll_Pall_Light.Migrations.Poll
 {
-    public partial class init : Migration
+    public partial class pollmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,7 +1,7 @@
-﻿using Poll_Pall_Light.Models;
+﻿using PollAPI.Models;
 using System.Collections.Generic;
 
-namespace Poll_Pall_Light.Services
+namespace PollAPI.Services
 {
     public interface IPollService
     {

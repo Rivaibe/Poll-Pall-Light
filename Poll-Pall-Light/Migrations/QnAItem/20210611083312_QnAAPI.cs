@@ -1,31 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Poll_Pall_Light.Migrations.AItem
+namespace Poll_Pall_Light.Migrations.QnAItem
 {
-    public partial class init : Migration
+    public partial class QnAAPI : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AItems",
+                name: "QnAItems",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QItemID = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isChecked = table.Column<bool>(type: "bit", nullable: false)
+                    QItemId = table.Column<int>(type: "int", nullable: false),
+                    AItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AItems", x => x.ID);
+                    table.PrimaryKey("PK_QnAItems", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AItems");
+                name: "QnAItems");
         }
     }
 }
