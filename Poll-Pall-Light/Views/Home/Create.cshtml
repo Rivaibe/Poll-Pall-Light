@@ -1,0 +1,9 @@
+@model AItemAPI.Models.AItem
+
+<form asp-controller="Home" asp-action="Create" method="post" class="form-group">
+	<div>
+		<label asp-for="Title">TITEL</label>
+		<input class="form-control" asp-for="Title"/>
+	</div>
+	<input type="submit" class="form-control">
+</form>
