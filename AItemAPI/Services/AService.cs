@@ -20,7 +20,7 @@ namespace AItemAPI.Services
             aItems = new List<AItem>
             {
                 new AItem{ID = 1, QItemID = 1, Title = "JA", isChecked =false },
-                new AItem{ID = 2, QItemID = 100, Title = "NEE", isChecked =false}
+                new AItem{ID = 100, QItemID = 2, Title = "NEE", isChecked =false}
             };
             return aItems;
         }

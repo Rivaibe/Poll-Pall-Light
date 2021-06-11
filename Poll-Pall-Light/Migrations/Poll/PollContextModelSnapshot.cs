@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poll_Pall_Light.Models;
+using PollAPI.Models;
 
-namespace Poll_Pall_Light.Migrations
+namespace Poll_Pall_Light.Migrations.Poll
 {
     [DbContext(typeof(PollContext))]
-    [Migration("20210610190732_init")]
-    partial class init
+    partial class PollContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
