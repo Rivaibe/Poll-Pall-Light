@@ -25,6 +25,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AItemAPI\AItemAPI.csproj" />
+      <ProjectReference Include="..\PollAPI\PollAPI.csproj" />
+      <ProjectReference Include="..\QItemAPI\QItemAPI.csproj" />
+      <ProjectReference Include="..\QnAAPI\QnAAPI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

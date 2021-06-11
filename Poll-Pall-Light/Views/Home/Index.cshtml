@@ -1,14 +1,42 @@
-﻿@{
+﻿@model List<AItemAPI.Models.AItem>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<table class="table">
+	<thead>
+	<tr>
+		<th>
+			TITLE
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+		@if (Model.Any())
+		{
+			foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						<p>@item.Title</p>
+					</td>	
+					<td>
+						<a asp-controller="Home" asp-action="Delete" asp-route-id="@item.ID">Delete A</a>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
 
 
-@model List<AItemAPI.Models.AItem>
+@model List<PollAPI.Models.Poll>
 
 @foreach (var item in Model)
 {
     <p>@item.Title</p>
+
 }
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
