@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Poll_Pall_Light.Models
+namespace PollAPI.Models
 {
     public class PollContext : DbContext
     {
