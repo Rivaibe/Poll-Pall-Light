@@ -1,10 +1,11 @@
-﻿using Poll_Pall_Light.Models;
+﻿using PollAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Poll_Pall_Light.Services
+namespace PollAPI.Services
 {
     public class PollService : IPollService
     {
@@ -26,5 +27,6 @@ namespace Poll_Pall_Light.Services
         {
             polls.Remove(poll);
         }
+
     }
 }

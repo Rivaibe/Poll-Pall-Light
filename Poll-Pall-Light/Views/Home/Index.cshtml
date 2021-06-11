@@ -31,8 +31,13 @@
 </table>
 
 
-<a asp-controller="Home" asp-action="Create">Create New A</a>
+@model List<PollAPI.Models.Poll>
 
+@foreach (var item in Model)
+{
+    <p>@item.Title</p>
+
+}
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
