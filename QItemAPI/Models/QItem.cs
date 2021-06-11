@@ -1,17 +1,19 @@
-﻿using System;
+﻿using AItemAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace AItemAPI.Models
+namespace QItemAPI.Models
 {
-    public class AItem
+    public class QItem
     {
         [Key]
         public int ID { get; set; }
-        public int QItemID { get; set; }
         public string Title { get; set; }
-        public bool isChecked { get; set; }
+
     }
 }
