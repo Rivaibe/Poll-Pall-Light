@@ -7,31 +7,39 @@ using System.Threading.Tasks;
 
 namespace AItemAPI.Services
 {
-    public class AService : IAService
-    {
-        List<AItem> aItems;
-        List<int> DummyCollection;
-
+    public class AService : IAService {
+        
+        private readonly AItemContext _context;
+        
+        public AService(AItemContext context)
+        {
+            _context = context;
+        }
+        
         public List<AItem> GetAItems()
         {
-            DummyCollection = new();
-            DummyCollection.Add(1);
-            DummyCollection.Add(2);
-            aItems = new List<AItem>
-            {
-                new AItem{ID = 1, QItemID = 1, Title = "JA", isChecked =false },
-                new AItem{ID = 100, QItemID = 2, Title = "NEE", isChecked =false}
-            };
-            return aItems;
+            return _context.AItems.ToList();
         }
+        
+        public AItem GetAItemByID(int? id)
+        {
+            var a = _context.AItems.FirstOrDefault(i => i.ID == id);
+            return a;
+        }       
+         
         public void AddAItem(AItem aItem)
         {
-            aItems.Add(aItem);
+            if (aItem != null)
+                _context.AItems.Add(aItem);
+            _context.SaveChanges();
         }
 
-        public void DeleteAItem(AItem aItem)
+        public void DeleteAItem(int? id)
         {
-            aItems.Remove(aItem);
+            var a = _context.AItems.FirstOrDefault(i => i.ID == id);
+            if (a != null)
+                _context.AItems.Remove(a);
+            _context.SaveChanges();           
         }
     }
 }
