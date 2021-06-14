@@ -35,7 +35,7 @@ namespace Poll_Pall_Light.Controllers
         
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(PollCreateViewModel pollCreateViewModel)
+        public IActionResult CreatePoll(PollCreateViewModel pollCreateViewModel)
         {
             var q = new QItem()
             {
