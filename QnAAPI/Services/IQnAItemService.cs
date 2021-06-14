@@ -6,8 +6,8 @@ using QnAAPI.Models;
 namespace QnAAPI.Services {
     public interface IQnAItemService {
         Task<List<QnAItem>> GetAItems();
-        Task<QItem> GetAItemByID(int? id);
-        void AddAItem(QItem qItem);
+        Task<QnAItem> GetAItemByID(int? id);
+        void AddAItem(QnAItem qnAItem);
         void DeleteAItem(int? id);
     }
 }
