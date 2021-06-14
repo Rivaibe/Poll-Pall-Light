@@ -31,9 +31,7 @@ namespace Poll_Pall_Light.Controllers
 
         public IActionResult Index()
         {
-
-            var x = _service3.GetPolls();
-            return View(x);
+            return View();
         }
 
         [HttpGet]
@@ -57,8 +55,7 @@ namespace Poll_Pall_Light.Controllers
         }
         public IActionResult Privacy()
         {
-            var x = _service2.GetQItems();
-            return View(x);
+            return View();
         }
         
         [HttpGet]
