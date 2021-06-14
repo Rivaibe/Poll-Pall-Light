@@ -13,6 +13,6 @@ namespace QnAAPI.Models
         {
             Database.EnsureCreated();
         }
-        DbSet<QnAItem> QnAItems { get; set; }
+        public DbSet<QnAItem> QnAItems { get; set; }
     }
 }
