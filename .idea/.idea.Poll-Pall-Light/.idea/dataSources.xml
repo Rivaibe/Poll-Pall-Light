@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:C:\Users\s-vdv\RiderProjects\Poll-Pall-Light\Poll-Pall-Light\app.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Student3@95.111.241.51" uuid="d6576f63-35ad-4e2b-b673-3cf18f88323e">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://95.111.241.51;database=Student3</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
