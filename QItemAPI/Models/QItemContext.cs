@@ -13,6 +13,7 @@ namespace QItemAPI.Models
         {
             Database.EnsureCreated();
         }
-        DbSet<QItem> Qitems { get; set; }
+        
+        public DbSet<QItem> Qitems { get; set; }
     }
 }

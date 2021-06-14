@@ -10,7 +10,8 @@ namespace QnAAPI.Models
     public class QnAItem
     {
         [Key]
-        public int Id { get; set; }
+        public int ID { get; set; }
+        public int PollId { get; set; }
         public int QItemId { get; set; }
         public int AItemId { get; set; }
     }
