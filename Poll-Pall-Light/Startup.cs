@@ -35,7 +35,8 @@ namespace Poll_Pall_Light
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PollContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PollContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("Poll-Pall-Light")));
             services.AddDbContext<AItemContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("Poll-Pall-Light")));
             services.AddDbContext<QnAItemContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
