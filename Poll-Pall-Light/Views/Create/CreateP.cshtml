@@ -1,0 +1,13 @@
+@model PollCreateViewModel
+
+<form asp-controller="Create" asp-action="Create" method="post" class="form-group">
+	<div>
+		<label asp-for="Poll.Title">Title</label>
+		<input class="form-control" asp-for="Poll.Title"/>
+	</div>
+	<div>
+		<label asp-for="QItem.Title">Title</label>
+		<input class="form-control" asp-for="QItem.Title"/>
+	</div>
+	<input type="submit" class="form-control" value="Create Poll">
+</form>
