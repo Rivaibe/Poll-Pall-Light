@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace AItemAPI.Services
 {
@@ -16,30 +17,33 @@ namespace AItemAPI.Services
             _context = context;
         }
         
-        public List<AItem> GetAItems()
+        public async Task<List<AItem>> GetAItems()
         {
-            return _context.AItems.ToList();
+            return await _context.AItems.ToListAsync();
         }
         
-        public AItem GetAItemByID(int? id)
+        public async Task<AItem> GetAItemByID(int? id)
         {
-            var a = _context.AItems.FirstOrDefault(i => i.ID == id);
+            if (id == null)
+                return null;
+            
+            var a = await _context.AItems.FirstOrDefaultAsync(i => i.ID == id);
             return a;
         }       
          
-        public void AddAItem(AItem aItem)
+        public async void AddAItem(AItem aItem)
         {
             if (aItem != null)
                 _context.AItems.Add(aItem);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteAItem(int? id)
+        public async void DeleteAItem(int? id)
         {
             var a = _context.AItems.FirstOrDefault(i => i.ID == id);
             if (a != null)
                 _context.AItems.Remove(a);
-            _context.SaveChanges();           
+            await _context.SaveChangesAsync();           
         }
     }
 }
