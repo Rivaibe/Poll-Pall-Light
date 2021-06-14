@@ -1,44 +1,14 @@
-﻿@model List<AItemAPI.Models.AItem>
-
-@{
-    ViewData["Title"] = "Home Page";
-}
-
-<table class="table">
-	<thead>
-	<tr>
-		<th>
-			TITLE
-		</th>
-	</tr>
-	</thead>
-	<tbody>
-		@if (Model.Any())
-		{
-			foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						<p>@item.Title</p>
-					</td>	
-					<td>
-						<a asp-controller="Home" asp-action="Delete" asp-route-id="@item.ID">Delete A</a>
-					</td>
-				</tr>
-			}
-		}
-	</tbody>
-</table>
-
-
-@model List<PollAPI.Models.Poll>
-
-@foreach (var item in Model)
-{
-    <p>@item.Title</p>
-
-}
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿<div class="container">
+	<div class="jumbotron bg-dark text-center text-light">
+		<h1>Welkom bij Poll Pall Light</h1>
+	</div>
+</div>
+<div class="container">
+	<div class="card bg-dark" style="width: 18rem">
+		<div class="card-body text-light">
+			<h2>Create new poll</h2>
+			<p>From here out you can go and create your own polls!</p>
+			<a asp-controller="Create" asp-action="CreatePollView">Create new poll</a>
+		</div>
+	</div>
 </div>
