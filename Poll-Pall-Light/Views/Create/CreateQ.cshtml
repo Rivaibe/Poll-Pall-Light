@@ -1,0 +1,9 @@
+@model QCreateViewModel
+
+<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group">
+	<div>
+		<label asp-for="Title">Title</label>
+		<input class="form-control" asp-for="Title"/>
+	</div>
+	<input type="submit" class="form-control" value="Create Q">
+</form>
