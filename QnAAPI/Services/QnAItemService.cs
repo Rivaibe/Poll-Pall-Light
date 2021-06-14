@@ -4,30 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using QItemAPI.Models;
 
 namespace QnAAPI.Services
 {
-    public class QnAItemService : IQnAItemService
+    public class QnAItemService : IQnAItemService 
     {
-        List<QnAItem> qnaItems;
-        public List<QnAItem> GetQnAItems()
+        private readonly QnAItemContext _context;
+        
+        public QnAItemService(QnAItemContext context)
         {
-            qnaItems = new List<QnAItem>
-            {
-                new QnAItem{QItemId = 1, AItemId = 1},
-                new QnAItem{QItemId = 1, AItemId = 100},
-                new QnAItem{QItemId = 2, AItemId = 1},
-                new QnAItem{QItemId = 2, AItemId = 100},
-            };
-            return qnaItems;
+            _context = context;
         }
-        public void AddQnaItem(QnAItem qnaItem)
+        
+        public async Task<List<QnAItem>> GetAItems()
         {
-            qnaItems.Add(qnaItem);
+            return await _context.QnAItems.ToListAsync();
         }
-        public void DeleteQnaItem(QnAItem qnaItem)
+        
+        public async Task<QnAItem> GetAItemByID(int? id)
         {
-            qnaItems.Remove(qnaItem);
+            var a = new QnAItem();
+            if (id != null)
+                a = await _context.QnAItems.FirstOrDefaultAsync(i => i.ID == id);
+            return a;
+        }       
+         
+        public async void AddAItem(QnAItem qnAItem)
+        {
+            if (qnAItem != null)
+                _context.QnAItems.Add(qnAItem);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void DeleteAItem(int? id)
+        {
+            var a = await _context.QnAItems.FirstOrDefaultAsync(i => i.ID == id);
+            if (a != null)
+                _context.QnAItems.Remove(a);
+            await _context.SaveChangesAsync();           
         }
     }
 }

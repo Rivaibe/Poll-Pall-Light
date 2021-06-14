@@ -13,6 +13,7 @@ namespace QItemAPI.Models
     {
         [Key]
         public int ID { get; set; }
+        public int PollID { get; set; }
         public string Title { get; set; }
 
     }

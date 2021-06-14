@@ -4,29 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PollAPI.Services
 {
-    public class PollService : IPollService
-    {
-        List<Poll> polls;
-        public List<Poll> GetPolls()
+    public class PollService : IPollService {
+        private readonly PollContext _context;
+        
+        public PollService(PollContext context)
         {
-            polls = new List<Poll>
+            _context = context;
+        }
+        
+        public async Task<List<Poll>> GetPolls()
+        {
+            return await _context.Polls.ToListAsync();
+        }
+        
+        public async Task<Poll> GetAItemByID(int? id)
+        {
+            var a = new Poll();
+            if (id != null)
             {
-                new Poll{ID = 1, QRootID = 1, Title = "eentesttitle"},
-                new Poll{ID = 2, QRootID = 100, Title = "eenAndertesttitle"},
-            };
-            return polls;
-        }
-        public void AddPoll(Poll poll)
+                a = await _context.Polls.FirstOrDefaultAsync(i => i.ID == id);
+            }
+            return a;
+        }       
+         
+        public async void AddAItem(Poll poll)
         {
-            polls.Add(poll);
-        }
-        public void DeletePoll(Poll poll)
-        {
-            polls.Remove(poll);
+            if (poll != null)
+                _context.Polls.Add(poll);
+            await _context.SaveChangesAsync();
         }
 
+        public async void DeleteAItem(int? id)
+        {
+            var a = _context.Polls.FirstOrDefault(i => i.ID == id);
+            if (a != null)
+                _context.Polls.Remove(a);
+            await _context.SaveChangesAsync();           
+        }
     }
 }
