@@ -1,4 +1,5 @@
-﻿using AItemAPI.Services;
+﻿using AItemAPI.Models;
+using AItemAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Poll_Pall_Light.Models;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AItemAPI.Models;
 
 
 namespace Poll_Pall_Light.Controllers
@@ -30,6 +30,10 @@ namespace Poll_Pall_Light.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult About()
         {
             return View();
         }
