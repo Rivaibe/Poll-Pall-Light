@@ -70,7 +70,7 @@ namespace Poll_Pall_Light.Controllers
 
         public IActionResult CreateQItem(QItemViewModel qItemViewModel)
         {
-            int x = Convert.ToInt32(TempData["id"]);
+            int x = Convert.ToInt32(TempData["idCurrent"]);
  
             var q = new QItem()
             {
@@ -83,11 +83,13 @@ namespace Poll_Pall_Light.Controllers
         
         public async Task<IActionResult> QView(int? id)
         {
-            var p = await _pollService.GetPollById(id);
+            var y = Convert.ToInt32(TempData["idCurrent"]);
+            
+            var p = await _pollService.GetPollById(y);
 
             var pnQ = new QItemViewModel()
             {
-                QItems = await _qService.GetQItemsByPollId(id),
+                QItems = await _qService.GetQItemsByPollId(y),
                 PollTitle = p.Title,
                 PollID = p.ID
             };
