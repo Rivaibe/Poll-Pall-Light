@@ -1,1 +1,24 @@
 @model QItemViewModel
+
+<div class="modal fade" id="DeleteQ">
+	<div class="modal-dialog">
+		<div class="model-header">
+			<h4 class="modal-title" id="DeleteQLabel">Delete Q</h4>
+			<button type="button" class="close" data-dismiss="modal">
+				<span>X</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form asp-controller="Delete" asp-action="DeleteShowDialog" method="get" >
+				<div class="form-group">
+					<label asp-for="QCreateViewModel.Title"></label>
+					<input asp-for="QCreateViewModel.Title" class="form-control">
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" data-save="modal">Delete</button>
+		</div>
+	</div>
+</div>
