@@ -45,7 +45,7 @@ namespace PollAPI.Services
         {
             if (poll != null)
                 _context.Polls.Add(poll);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void DeleteAItem(int? id)
