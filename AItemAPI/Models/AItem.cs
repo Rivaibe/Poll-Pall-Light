@@ -8,7 +8,6 @@ namespace AItemAPI.Models
 {
     public class AItem
     {
-        [Key]
         public int ID { get; set; }
         public int QItemID { get; set; }
         public string Title { get; set; }

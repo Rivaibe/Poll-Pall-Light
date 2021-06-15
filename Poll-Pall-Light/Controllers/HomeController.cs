@@ -63,9 +63,9 @@ namespace Poll_Pall_Light.Controllers
         }
         
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            var a = _service.GetAItemByID(id);
+            var a = await _service.GetAItemByID(id);
             if (a == null)
                 return NotFound();
             
