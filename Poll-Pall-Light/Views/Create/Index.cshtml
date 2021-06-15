@@ -1,14 +1,20 @@
-@model IEnumerable<PollAPI.Models.Poll>
+@model List<PollAPI.Models.Poll>
 
 <table class="table">
 	<tr>
 		<th>Polls</th>
 	</tr>
-	@foreach (var poll in Model){
+	@foreach (var poll in Model)
+	{
 		<tr>
 			<td>
-				@poll.Title
+				<a class="alert-link" style="color: #323232" asp-controller="Create" asp-action="QView" asp-route-id="@poll.ID">@poll.Title</a>
+			</td>
+			<td>
+				@* <a class="alert-link" style="color: #cb5e5e" asp-controller="Delete" asp-action="DeletePoll">Delete</a> *@
 			</td>
 		</tr>
 	}
 </table>
+<br/>
+<a class="alert-link" asp-controller="Create" asp-action="CreatePollView">Add Poll</a>
