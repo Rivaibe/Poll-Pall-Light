@@ -97,7 +97,5 @@ namespace Poll_Pall_Light.Controllers
 
             return View(pnQ);
         }
-        
-
     }
 }
