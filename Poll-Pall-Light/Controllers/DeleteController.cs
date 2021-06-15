@@ -1,3 +1,4 @@
+using System;
 using AItemAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Poll_Pall_Light.Models;
@@ -27,7 +28,11 @@ namespace Poll_Pall_Light.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult DeleteQItem(int? id)
         {
-            return View("/Views/Create/QView.cshtml");
+            var y = Convert.ToInt32(TempData["idCurrent"]);
+
+            _qService.DeleteQItem(id);
+
+            return RedirectToAction("QView", "Create", new {id = y}, null );
         }
         
         [HttpGet]
