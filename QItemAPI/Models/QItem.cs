@@ -11,9 +11,8 @@ namespace QItemAPI.Models
 {
     public class QItem
     {
-        [Key]
         public int ID { get; set; }
-        public int PollID { get; set; }
+        public int? PollID { get; set; }
         public string Title { get; set; }
 
     }

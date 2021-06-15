@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using AItemAPI.Models;
 using AItemAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -26,57 +28,76 @@ namespace Poll_Pall_Light.Controllers
         }
         
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var polls = _pollService.GetPolls();
+            var polls = await _pollService.GetPolls();
 
             return View(polls);
         }
         
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult CreatePoll(PollCreateViewModel pollCreateViewModel)
+        public async Task<IActionResult> CreatePoll(PollCreateViewModel pollCreateViewModel)
         {
             var q = new QItem()
             {
                 Title = pollCreateViewModel.QItem.Title
             };
-            _qService.AddAItem(q);
+            _qService.AddQItem(q);
             
             var p = new Poll()
             {
                 Title = pollCreateViewModel.Poll.Title,
                 QRootID = q.ID
-
             };
             _pollService.AddAItem(p);
+
+            var x = await _pollService.GetPollByQRootId(p.QRootID);
+            
+            q.PollID = x.ID;
+            _qService.UpdateQItem(q);
 
             return RedirectToAction("Index");
         }
         
         [HttpGet]
-        public IActionResult CreateP()
+        public IActionResult CreatePollView()
         {
             var p = new PollCreateViewModel();
             
             return View(p);
         }
-        
-        [HttpGet]
-        public IActionResult CreateQ()
+
+        public IActionResult CreateQItem(QItemViewModel qItemViewModel)
         {
-            var q = new QCreateViewModel();
-            
-            return View(q);
+            int x = Convert.ToInt32(TempData["id"]);
+ 
+            var q = new QItem()
+            {
+                Title = qItemViewModel.QCreateViewModel.Title,
+                PollID = x
+            };
+            _qService.AddQItem(q);
+            return RedirectToAction("QView", new {id = q.PollID});
         }
         
-        public IActionResult CreateQItem()
+        public async Task<IActionResult> QView(int? id)
         {
-            return null;
+            var p = await _pollService.GetPollById(id);
+
+            var pnQ = new QItemViewModel()
+            {
+                QItems = await _qService.GetQItemsByPollId(id),
+                PollTitle = p.Title,
+                PollID = p.ID
+            };
+
+            ViewData["qCreate"] = new QCreateViewModel();
+            ViewData["PollID"] = pnQ.PollID;
+
+            return View(pnQ);
         }
-        public IActionResult CreatePollView()
-        {
-            return null;
-        }
+        
+
     }
 }
