@@ -21,7 +21,7 @@ namespace PollAPI.Services
             return await _context.Polls.ToListAsync();
         }
         
-        public async Task<Poll> GetAItemByID(int? id)
+        public async Task<Poll> GetPollById(int? id)
         {
             var a = new Poll();
             if (id != null)
@@ -30,20 +30,30 @@ namespace PollAPI.Services
             }
             return a;
         }       
-         
-        public async void AddAItem(Poll poll)
+        
+        public async Task<Poll> GetPollByQRootId(int? id)
+        {
+            var a = new Poll();
+            if (id != null)
+            {
+                a = await _context.Polls.FirstOrDefaultAsync(i => i.QRootID == id);
+            }
+            return a;
+        }   
+        
+        public void AddAItem(Poll poll)
         {
             if (poll != null)
                 _context.Polls.Add(poll);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
-        public async void DeleteAItem(int? id)
+        public void DeleteAItem(int? id)
         {
             var a = _context.Polls.FirstOrDefault(i => i.ID == id);
             if (a != null)
                 _context.Polls.Remove(a);
-            await _context.SaveChangesAsync();           
+            _context.SaveChangesAsync();           
         }
     }
 }

@@ -9,9 +9,10 @@ namespace PollAPI.Models
 {
     public class Poll
     {
-        [Key]
         public int ID { get; set; }
         public int QRootID { get; set; }
         public string Title { get; set; }
+        
+        // TODO - Add poll description
     }
 }
