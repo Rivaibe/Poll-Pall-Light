@@ -30,20 +30,34 @@ namespace AItemAPI.Services
             var a = await _context.AItems.FirstOrDefaultAsync(i => i.ID == id);
             return a;
         }       
-         
+        
+        public async Task<List<AItem>> GetAItemsByQId(int? id)
+        {
+            var aList = await _context.AItems.Where(x => x.QItemID == id).ToListAsync();
+
+            return aList;
+        } 
+        
         public async void AddAItem(AItem aItem)
         {
             if (aItem != null)
                 _context.AItems.Add(aItem);
             await _context.SaveChangesAsync();
         }
-
-        public async void DeleteAItem(int? id)
+        
+        public void UpdateAItem(AItem aItem)
+        {
+            if (aItem != null)
+                _context.AItems.Update(aItem);
+            _context.SaveChanges();
+        }
+        
+        public void DeleteAItem(int? id)
         {
             var a = _context.AItems.FirstOrDefault(i => i.ID == id);
             if (a != null)
                 _context.AItems.Remove(a);
-            await _context.SaveChangesAsync();           
+            _context.SaveChanges();           
         }
     }
 }

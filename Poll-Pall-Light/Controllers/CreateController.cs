@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AItemAPI.Models;
 using AItemAPI.Services;
@@ -68,9 +69,15 @@ namespace Poll_Pall_Light.Controllers
             return View(p);
         }
 
-        public IActionResult CreateQItem(QItemViewModel qItemViewModel)
+        public async Task<IActionResult> CreateQItem(QItemViewModel qItemViewModel)
         {
-            int x = Convert.ToInt32(TempData["id"]);
+            int x = Convert.ToInt32(TempData["idCurrent"]);
+
+            var a = new AItem()
+            {
+               Title = qItemViewModel.QCreateViewModel.AItem.Title
+            };
+            _aService.AddAItem(a);
  
             var q = new QItem()
             {
@@ -78,16 +85,31 @@ namespace Poll_Pall_Light.Controllers
                 PollID = x
             };
             _qService.AddQItem(q);
+            
+            var n = await _qService.GetFirstQItemByPollId(x);
+            a.QItemID = n.ID;
+            _aService.UpdateAItem(a);
+            
             return RedirectToAction("QView", new {id = q.PollID});
         }
         
         public async Task<IActionResult> QView(int? id)
         {
-            var p = await _pollService.GetPollById(id);
+            var p = new Poll();
+            
+            var y = Convert.ToInt32(TempData["idCurrent"]);
+            
+            if(id != null)
+                p = await _pollService.GetPollById(id);
+            else
+            {
+                p = await _pollService.GetPollById(y);
+            }
 
             var pnQ = new QItemViewModel()
             {
-                QItems = await _qService.GetQItemsByPollId(id),
+                QItems = await _qService.GetQItemsByPollId(p.ID),
+                AItems = await _aService.GetAItems(),
                 PollTitle = p.Title,
                 PollID = p.ID
             };
@@ -97,7 +119,5 @@ namespace Poll_Pall_Light.Controllers
 
             return View(pnQ);
         }
-        
-
     }
 }
