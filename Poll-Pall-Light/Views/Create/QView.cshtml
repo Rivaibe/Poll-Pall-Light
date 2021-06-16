@@ -11,10 +11,13 @@
 		<div class="col-sm">
 			<table class="table">
 				<tr>
-					<th>Q Items</th>
+					<th>
+						<h2>Q Items</h2>
+					</th>
 				</tr>
-				@foreach (var q in Model.QItems)
-				{
+				@foreach (var q in Model.QItems){
+					var x = 0;
+					x = Model.AItems.Count(a => a.QItemID == q.ID);
 					<tr>
 						<td>
 							<div class="card mb-3 bg-dark text-light">
@@ -22,13 +25,13 @@
 									Q ITEM: @q.Title
 								</div>
 								<div class="card-body">
-									<h5>Aantal A's:</h5>
+									<h5>Aantal A's: @x</h5>
 								</div>
 								<div class="card-footer">
 									<form class="form" asp-controller="Delete" asp-action="DeleteQItem" method="post">
 										<button asp-route-id="@q.ID" asp-controller="Delete" asp-action="DeleteQItem" type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete Q item: @q.Title')">Delete</button>
 									</form>
-								    @{
+									@{
 										TempData["idCurrent"] = q.PollID;
 								    }
 								</div>
@@ -43,6 +46,10 @@
 				<div>
 					<label asp-for="QCreateViewModel.Title">Title</label>
 					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.Title"/>
+				</div>
+				<div>
+					<label asp-for="QCreateViewModel.AItem.Title">Title</label>
+					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.AItem.Title"/>
 				</div>
 				<input type="submit" class="form-control bg-dark text-light" value="Add Q">
 			</form>
