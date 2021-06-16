@@ -6,7 +6,7 @@
 	TempData["id"] = ViewData["PollID"];
 }
 
-<div class="container">
+<div style="font-family: 'Montserrat', sans-serif" class="container">
 	<div class="row">
 		<div class="col-sm">
 			<table class="table">
@@ -16,8 +16,12 @@
 					</th>
 				</tr>
 				@foreach (var q in Model.QItems){
-					var x = 0;
-					x = Model.AItems.Count(a => a.QItemID == q.ID);
+					// var x = Model.AItems.Count(a => a.QItemID == q.ID);
+					var i = 0;
+					foreach (var x in Model.AItems){
+						if (x.QItemID == q.ID)
+							i++;
+					}
 					<tr>
 						<td>
 							<div class="card mb-3 bg-dark text-light">
@@ -25,7 +29,7 @@
 									Q ITEM: @q.Title
 								</div>
 								<div class="card-body">
-									<h5>Aantal A's: @x</h5>
+									<h5>Aantal A's: @i</h5>
 								</div>
 								<div class="card-footer">
 									<form class="form" asp-controller="Delete" asp-action="DeleteQItem" method="post">
@@ -44,11 +48,11 @@
 		<div class="col-sm">
 			<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group">
 				<div>
-					<label asp-for="QCreateViewModel.Title">Title</label>
+					<label style="font-size: 2rem" asp-for="QCreateViewModel.Title">Titel eerste Q</label>
 					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.Title"/>
 				</div>
 				<div>
-					<label asp-for="QCreateViewModel.AItem.Title">Title</label>
+					<label style="font-size: 2rem" asp-for="QCreateViewModel.AItem.Title">Titel eerste A</label>
 					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.AItem.Title"/>
 				</div>
 				<input type="submit" class="form-control bg-dark text-light" value="Add Q">
