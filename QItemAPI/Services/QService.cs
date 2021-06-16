@@ -21,12 +21,12 @@ namespace QItemAPI.Services
             return await _context.Qitems.ToListAsync();
         }
         
-        public async Task<QItem> GetFirstQItemByPollId(int? id)
+        public async Task<QItem> GetLastQItemByPollId(int? id)
         {
             var q = new QItem();
             if (id != null)
             {
-                q = await _context.Qitems.FirstOrDefaultAsync(i => i.PollID == id);
+                q = await _context.Qitems.OrderBy(x => x.ID).LastOrDefaultAsync(i => i.PollID == id);
             }
             return q; 
         }
