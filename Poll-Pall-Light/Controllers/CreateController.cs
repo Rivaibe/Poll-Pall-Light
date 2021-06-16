@@ -86,7 +86,7 @@ namespace Poll_Pall_Light.Controllers
             };
             _qService.AddQItem(q);
             
-            var n = await _qService.GetFirstQItemByPollId(x);
+            var n = await _qService.GetLastQItemByPollId(x);
             a.QItemID = n.ID;
             _aService.UpdateAItem(a);
             
