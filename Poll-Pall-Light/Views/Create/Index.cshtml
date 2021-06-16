@@ -1,20 +1,36 @@
 @model List<PollAPI.Models.Poll>
 
+        <a class="alert-link position-fixed pr-2 pt-2 btn btn-outline-primary" style="z-index:50" asp-controller="Create" asp-action="CreatePollView">
+            Add Poll
+        </a>  
+
 <table class="table">
 	<tr>
-		<th>Polls</th>
+		<th>
+            <div class="text-center text-capitalize">                
+                <h1 class="font-weight-bold">Polls</h1>
+                <div style="border: thin solid white"></div>
+            </div>
+        </th>
 	</tr>
 	@foreach (var poll in Model)
 	{
-		<tr>
-			<td>
-				<a class="alert-link" style="color: #323232" asp-controller="Create" asp-action="QView" asp-route-id="@poll.ID">@poll.Title</a>
-			</td>
-			<td>
-				@* <a class="alert-link" style="color: #cb5e5e" asp-controller="Delete" asp-action="DeletePoll">Delete</a> *@
-			</td>
-		</tr>
+        <tr>    
+            <td>
+                <div class="row text-center">
+                    <div class="col-sm"></div>
+                    <div class="card col-sm bg-dark w-25">
+                        <div class="card-body text-light">
+                            <a class="alert-link" style="color: white" asp-controller="Create" asp-action="QView" asp-route-id="@poll.ID">@poll.Title</a>
+                        </div>
+                        </div>
+                    <div class="col-sm"></div>
+                </div>        
+            </td>
+            <td>
+                @* <a class="alert-link" style="color: #cb5e5e" asp-controller="Delete" asp-action="DeletePoll">Delete</a> *@
+            </td>      
+        </tr>
 	}
 </table>
 <br/>
-<a class="alert-link" asp-controller="Create" asp-action="CreatePollView">Add Poll</a>
