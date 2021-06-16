@@ -6,7 +6,7 @@
 <p>Now as ever, information makes the world go round! Poll Pall™ strives to become an essential nexus in this flow of information. It doesn’t matter if you start your poll out of personal curiosity or whether you want to conduct serious market research, Poll Pall™ will help you get the information you need. </p>
 <p>Furthermore, it is our aim to make the world a more fun place. With our text editor we gave you the reigns to unleash your imagination but we’re not stopping there.  </p>
 <h2>About us</h2>
-<p>Poll Pall™ was made by the talented people of team (NAME). Brought together in 2001 by Klaas Van Hecke to execute his vision, Team *NAME* has gone on to break new ground at breakneck speed.</p>
+<p>Poll Pall™ was made by the talented people of team (NAME). Brought together in 2021 by Klaas Van Hecke to execute his vision, Team *NAME* has gone on to break new ground at breakneck speed.</p>
 <p>We are:</p>
 <p><strong>Steve Van De Vyver</strong></p>
 <p>*Foto* *uitleg*</p>
