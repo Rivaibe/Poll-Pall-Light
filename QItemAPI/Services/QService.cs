@@ -21,6 +21,16 @@ namespace QItemAPI.Services
             return await _context.Qitems.ToListAsync();
         }
         
+        public async Task<QItem> GetFirstQItemByPollId(int? id)
+        {
+            var q = new QItem();
+            if (id != null)
+            {
+                q = await _context.Qitems.FirstOrDefaultAsync(i => i.PollID == id);
+            }
+            return q; 
+        }
+        
         public async Task<List<QItem>> GetQItemsByPollId(int? id)
         {
             var qList = await _context.Qitems.Where(x => x.PollID == id).ToListAsync();
@@ -54,9 +64,9 @@ namespace QItemAPI.Services
         
         public void DeleteQItem(int? id)
         {
-            var a = _context.Qitems.FirstOrDefault(i => i.ID == id);
-            if (a != null)
-                _context.Qitems.Remove(a);
+            var q = _context.Qitems.FirstOrDefault(i => i.ID == id);
+            if (q != null)
+                _context.Qitems.Remove(q);
             _context.SaveChanges();           
         }
     }
