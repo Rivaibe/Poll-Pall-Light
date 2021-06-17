@@ -10,6 +10,7 @@ namespace AItemAPI.Models
     {
         public int ID { get; set; }
         public int QItemID { get; set; }
+        public string QID { get; set; }
         public string Title { get; set; }
         public bool isChecked { get; set; }
     }

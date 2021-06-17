@@ -6,61 +6,71 @@
 	<title>@ViewData["Title"]</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="~/css/site.css"/>
+	<link rel="stylesheet" href="~/css/overwrite.css"/>
 	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.css">
 	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.structure.css">
 	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.theme.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"> 
+	<script src="https://kit.fontawesome.com/d440854d99.js" crossorigin="anonymous"></script>
 </head>
 <body style="background: #b5b5b5">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand text-light" style="font-family: 'Montserrat', sans-serif" asp-area="" asp-controller="Home" asp-action="Index">Poll Pall Light</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Create" asp-action="Index">Polls</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Create" asp-action="CreatePollView">Create</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Use" asp-action="Index">Index</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">About Poll Pall</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+<header>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-toggleable-sm border-bottom box-shadow mb-3">
+		<div class="container">
+			<a class="navbar-brand" style="font-family: 'Montserrat', sans-serif; color: #BCE26BFF" asp-area="" asp-controller="Home" asp-action="Index">Poll Pall Light</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+			        aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+				<ul class="navbar-nav flex-grow-1">
+					<li class="nav-item">
+						<a class="nav-link text-light" asp-area="" asp-controller="Create" asp-action="Index">Polls</a>
+					</li>
+					@* <li class="nav-item"> *@
+					@* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllQs">All Q's</a> *@
+					@* </li> *@
+					@* <li class="nav-item"> *@
+					@* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllAs">All A's</a> *@
+					@* </li>                     *@
+					<li class="nav-item">
+						<a class="nav-link text-light" asp-area="" asp-controller="Use" asp-action="Index">Take Poll</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">About Poll Pall</a>
+					</li>
+				</ul>
+				<partial name="_LoginPartial" />
+			</div>
+		</div>
+	</nav>
+</header>
+<div class="container">
+	<main role="main" class="pb-3">
+		@RenderBody()
+	</main>
+</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Poll_Pall_Light - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/lib/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<footer class="border-top footer text-muted">
+	<div class="container">
+		&copy; 2021 - Poll_Pall_Light - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+	</div>
+</footer>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/lib/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+<style>
+	.container{
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+</style>
 
 </body>
 </html>
