@@ -11,5 +11,6 @@ namespace QItemAPI.Services {
         void AddQItem(QItem qItem);
         void UpdateQItem(QItem qItem);
         void DeleteQItem(int? id);
+        void DeleteQItemsByPollId(int? id);
     }
 }

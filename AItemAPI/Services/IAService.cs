@@ -10,5 +10,6 @@ namespace AItemAPI.Services {
         void AddAItem(AItem aItem);
         void UpdateAItem(AItem aItem);
         void DeleteAItem(int? id);
+        void DeleteAItemsByQId(int? id);
     }
 }

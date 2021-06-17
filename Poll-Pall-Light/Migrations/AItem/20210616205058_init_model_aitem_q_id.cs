@@ -1,14 +1,14 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Poll_Pall_Light.Migrations
+namespace Poll_Pall_Light.Migrations.AItem
 {
-    public partial class pollid : Migration
+    public partial class init_model_aitem_q_id : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "PollID",
-                table: "Qitems",
+                name: "QID",
+                table: "AItems",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -17,8 +17,8 @@ namespace Poll_Pall_Light.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "PollID",
-                table: "Qitems");
+                name: "QID",
+                table: "AItems");
         }
     }
 }

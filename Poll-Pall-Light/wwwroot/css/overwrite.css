@@ -1,0 +1,9 @@
+.row{
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.GreenHoverTextButton:hover{
+    background: #6f7980;
+    color: #BCE26BFF;
+}
