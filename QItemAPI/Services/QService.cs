@@ -69,5 +69,13 @@ namespace QItemAPI.Services
                 _context.Qitems.Remove(q);
             _context.SaveChanges();           
         }
+        
+        public void DeleteQItemsByPollId(int? id)
+        {
+            var a = _context.Qitems.Where(i => i.PollID == id);
+            if (a.Any())
+                _context.Qitems.RemoveRange(a);
+            _context.SaveChanges();           
+        } 
     }
 }

@@ -1,0 +1,27 @@
+@model List<PollAPI.Models.Poll>
+
+<div class="container" style="font-family: 'Montserrat', sans-serif; margin-bottom: 0">
+	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
+		<h1>Welkom bij <span style="color: #BCE26BFF">Poll Pall Light</span></h1>
+		<br>
+		<h2>Hier kan je alle poll's doornemen en natuurlijk ook deelnemen!</h2>
+	</div>
+</div>
+<div class="container d-flex flex-sm-wrap justify-content-sm-between" style="font-family: 'Montserrat', sans-serif; height: auto">
+	@foreach (var p in Model)
+	{
+		<div class="card bg-dark m-4" style="width: 20rem; height: 20rem">
+			<div class="card-header text-center">
+				<h3 style="color: #BCE26BFF">@p.Title</h3> 
+			</div>
+			<div class="card-body text-light" style="height: 10rem">
+				<p>@p.Description</p>
+			</div>
+			<div class="card-footer d-flex justify-content-center">
+				<form class="form" asp-controller="Use" asp-action="TakePoll" method="get">
+					<button asp-route-id="@p.ID" asp-controller="Use" asp-action="TakePoll" type="submit" class="btn font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5a6268; color: #bfbfbf">Take Poll</button>
+				</form>
+			</div>
+		</div>
+	}
+</div>
