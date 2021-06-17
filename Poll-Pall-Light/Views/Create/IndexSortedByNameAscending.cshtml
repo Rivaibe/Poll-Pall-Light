@@ -2,7 +2,7 @@
 @using Microsoft.EntityFrameworkCore
 @model PItemViewModel
 
-<div class="container" style="font-family: 'Montserrat', sans-serif; padding-left: 0; padding-right: 0">
+<div class="container" style="font-family: 'Montserrat', sans-serif">
 	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
 		<h1>Poll's</h1>
 	</div>
@@ -21,6 +21,7 @@
 					foreach (var p in Model.Polls){
 
 						var i = 0;
+
 						
 						foreach (var q in Model.QItems){
 							if (q.PollID == p.ID)
@@ -87,4 +88,3 @@
 		<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary font-weight-bold border-0 position-fixed text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:50; top: 76%; right: 23%">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
 	</div>
 </div>
-

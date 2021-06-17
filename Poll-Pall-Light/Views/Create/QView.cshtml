@@ -1,18 +1,24 @@
+@using Microsoft.EntityFrameworkCore
 @model QItemViewModel
-
-<h1>@Model.PollTitle</h1>
 
 @{
 	TempData["id"] = ViewData["PollID"];
 }
 
+<div class="container" style="font-family: 'Montserrat', sans-serif; padding-left: 0; padding-right: 0">
+	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
+		<h1>Q Items</h1>
+		<h2>van</h2>
+		<h2>@Model.PollTitle</h2>
+	</div>
+</div>
+
 <div style="font-family: 'Montserrat', sans-serif" class="container">
 	<div class="row">
 		<div class="col-sm">
-			<table class="table">
+			<table class="table table-borderless col-sm w-50">
 				<tr>
 					<th>
-						<h2>Q Items</h2>
 					</th>
 				</tr>
 				@foreach (var q in Model.QItems){
@@ -26,15 +32,21 @@
 						<td>
 							<div class="card mb-3 bg-dark text-light">
 								<div class="card-header">
-									Q ITEM: @q.Title
+									<h5 style="color:#d4d269"> Aantal A's: @i</h5>
 								</div>
 								<div class="card-body">
-									<h5>Aantal A's: @i</h5>
+									<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem">@q.Title</h3>
 								</div>
-								<div class="card-footer">
+								<div class="card-footer row">
 									<form class="form" asp-controller="Delete" asp-action="DeleteQItem" method="post">
-										<button asp-route-id="@q.ID" asp-controller="Delete" asp-action="DeleteQItem" type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete Q item: @q.Title')">Delete</button>
+										<button asp-route-id="@q.ID" asp-controller="Delete" asp-action="DeleteQItem" type="submit" class="btn btn-danger font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #d96363; color: #393939" onclick="return confirm('Are you sure you want to delete Q item: @q.Title')">Delete</button>
 									</form>
+									<form class="form ml-3" asp-controller="Edit" asp-action="EditQItem" method="post">
+										<button asp-route-id="@q.ID" asp-controller="Edit" asp-action="EditQItem" type="submit" class="btn btn-warning font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Edit</button>
+									</form>
+									<form class="form ml-3" asp-controller="Create" asp-action="AView" method="get">
+										<button asp-route-id="@q.ID" asp-controller="Create" asp-action="AView" type="submit" class="btn btn-primary font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Go to A's</button>
+									</form>	
 									@{
 										TempData["idCurrent"] = q.PollID;
 								    }
@@ -45,18 +57,19 @@
 				}
 			</table>
 		</div>
-		<div class="col-sm">
-			<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group">
-				<div>
-					<label style="font-size: 2rem" asp-for="QCreateViewModel.Title">Titel eerste Q</label>
-					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.Title"/>
-				</div>
-				<div>
-					<label style="font-size: 2rem" asp-for="QCreateViewModel.AItem.Title">Titel eerste A</label>
-					<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.AItem.Title"/>
-				</div>
-				<input type="submit" class="form-control bg-dark text-light" value="Add Q">
-			</form>
+		<div class="card bg-dark position-fixed" style="z-index:50; top: 32.5%; right: 18.5%; width: 25rem">
+			<div class="card-header">
+				<h3 class="text-center" style="color: #BCE26BFF">Create a new Q</h3>
+			</div>
+			<div class="card-body text-light">
+				<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group">
+					<div>
+						<label asp-for="QCreateViewModel.Title">Give your Q a title.</label>
+						<input class="form-control bg-dark text-light" asp-for="QCreateViewModel.Title"/>
+					</div>
+					<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Create Q">
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
