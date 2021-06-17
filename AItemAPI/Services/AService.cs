@@ -38,11 +38,11 @@ namespace AItemAPI.Services
             return aList;
         } 
         
-        public async void AddAItem(AItem aItem)
+        public void AddAItem(AItem aItem)
         {
             if (aItem != null)
                 _context.AItems.Add(aItem);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         
         public void UpdateAItem(AItem aItem)
@@ -57,6 +57,14 @@ namespace AItemAPI.Services
             var a = _context.AItems.FirstOrDefault(i => i.ID == id);
             if (a != null)
                 _context.AItems.Remove(a);
+            _context.SaveChanges();           
+        }
+        
+        public void DeleteAItemsByQId(int? id)
+        {
+            var a = _context.AItems.Where(i => i.QItemID == id);
+            if (a.Any())
+                _context.AItems.RemoveRange(a);
             _context.SaveChanges();           
         }
     }

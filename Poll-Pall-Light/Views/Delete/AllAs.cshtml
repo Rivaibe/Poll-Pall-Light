@@ -1,0 +1,34 @@
+@model List<AItemAPI.Models.AItem>
+
+<div style="font-family: 'Montserrat', sans-serif" class="container">
+	<div class="row">
+		<div class="col-sm">
+			<table class="table table-borderless col-sm">
+				<tr>
+					<th>
+						<h2>A Items</h2>
+					</th>
+				</tr>
+				@foreach (var a in Model){
+					<tr>
+						<td>
+							<div class="card mb-3 bg-dark text-light">
+								<div class="card-header">
+									A Item:
+								</div>
+								<div class="card-body">
+									<h5>@a.Title</h5>
+								</div>
+								<div class="card-footer">
+									<form class="form" asp-controller="Delete" asp-action="DeleteAItemSolo" method="post">
+										<button asp-route-id="@a.ID" asp-controller="Delete" asp-action="DeleteAItemSolo" type="submit" class="btn btn-danger font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #d96363; color: #393939" onclick="return confirm('Are you sure you want to delete A item: @a.Title')">Delete</button>
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>
+</div>
