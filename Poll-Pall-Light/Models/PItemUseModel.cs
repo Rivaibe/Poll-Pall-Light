@@ -10,6 +10,7 @@ namespace Poll_Pall_Light.Models
         public List<QItem> QItems { get; set; }
         public List<AItem> AItems { get; set; }
         public Poll Poll { get; set; } 
-        public bool isChecked { get; set; }
+        public int NextQId { get; set; }
+        public bool EndPoll { get; set; }
     }
 }
