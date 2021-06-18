@@ -19,6 +19,9 @@ namespace Poll_Pall_Light.Controllers
 {
     public class CreateController : Controller 
     {
+        /// <summary>
+        /// Services And Constructor
+        /// </summary>
         private readonly UserManager<ApplicationUser> _manager;
         
         private readonly IAService _aService;
@@ -122,7 +125,8 @@ namespace Poll_Pall_Light.Controllers
             
             var q = new QItem()
             {
-                Title = pItemViewModel.QTitle
+                Title = pItemViewModel.QTitle,
+                EndPoll = false
             };
             _qService.AddQItem(q);
             
@@ -157,6 +161,7 @@ namespace Poll_Pall_Light.Controllers
             var q = new QItem()
             {
                 Title = qItemViewModel.QCreateViewModel.Title,
+                EndPoll = false,
                 PollID = x
             };
             _qService.AddQItem(q);
