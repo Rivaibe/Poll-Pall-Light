@@ -13,10 +13,10 @@
 	</div>
 </div>
 
-<div style="font-family: 'Montserrat', sans-serif" class="container">
+<div style="font-family: 'Montserrat', sans-serif" class="container position-relative">
 	<div class="row">
 		<div class="col-sm">
-			<table class="table table-borderless col-sm w-50">
+			<table class="table table-borderless col-sm" style="width: 40rem">
 				<tr>
 					<th>
 					</th>
@@ -37,14 +37,14 @@
 								<div class="card-body">
 									<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem">@q.Title</h3>
 								</div>
-								<div class="card-footer row">
+								<div class="card-footer d-flex justify-content-sm-around">
 									<form class="form" asp-controller="Delete" asp-action="DeleteQItem" method="post">
 										<button asp-route-id="@q.ID" asp-controller="Delete" asp-action="DeleteQItem" type="submit" class="btn btn-danger font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #d96363; color: #393939" onclick="return confirm('Are you sure you want to delete Q item: @q.Title')">Delete</button>
 									</form>
-									<form class="form ml-3" asp-controller="Edit" asp-action="EditQItem" method="post">
+									<form class="form" asp-controller="Edit" asp-action="EditQItem" method="post">
 										<button asp-route-id="@q.ID" asp-controller="Edit" asp-action="EditQItem" type="submit" class="btn btn-warning font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Edit</button>
 									</form>
-									<form class="form ml-3" asp-controller="Create" asp-action="AView" method="get">
+									<form class="form" asp-controller="Create" asp-action="AView" method="get">
 										<button asp-route-id="@q.ID" asp-controller="Create" asp-action="AView" type="submit" class="btn btn-primary font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Go to A's</button>
 									</form>	
 									@{
@@ -57,7 +57,7 @@
 				}
 			</table>
 		</div>
-		<div class="card bg-dark position-fixed" style="z-index:50; top: 32.5%; right: 18.5%; width: 25rem">
+		<div class="card bg-dark position-sticky" style="z-index:50; top: 32.5%; right: 18.5%; width: 25rem; height: 15rem; margin-top: 2.3rem">
 			<div class="card-header">
 				<h3 class="text-center" style="color: #BCE26BFF">Create a new Q</h3>
 			</div>
