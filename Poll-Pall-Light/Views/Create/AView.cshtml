@@ -52,7 +52,7 @@
 					<div>
 						<label asp-for="QId">Give your A a Q to match.</label>
 						<select class="form-control bg-dark text-light" asp-for="QId">
-							<option value="">Please choose a Q</option>
+							<option value="0">Please choose a Q</option>
 							@{
 								foreach (var x in Model.QConnectedByPollId){
 									<option value="@x.ID">@x.Title</option>
