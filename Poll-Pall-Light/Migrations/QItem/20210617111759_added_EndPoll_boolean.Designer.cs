@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QItemAPI.Models;
 
 namespace Poll_Pall_Light.Migrations.QItem
 {
     [DbContext(typeof(QItemContext))]
-    partial class QItemContextModelSnapshot : ModelSnapshot
+    [Migration("20210617111759_added_EndPoll_boolean")]
+    partial class added_EndPoll_boolean
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
