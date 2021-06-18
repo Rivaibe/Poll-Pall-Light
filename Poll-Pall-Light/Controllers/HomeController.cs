@@ -37,6 +37,10 @@ namespace Poll_Pall_Light.Controllers
         {
             return View();
         }
+        public IActionResult Tutorial()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Create()

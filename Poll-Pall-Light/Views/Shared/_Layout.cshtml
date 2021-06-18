@@ -18,29 +18,32 @@
 <header>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-toggleable-sm border-bottom box-shadow mb-3">
 		<div class="container">
-			<a class="navbar-brand" style="font-family: 'Montserrat', sans-serif; color: #BCE26BFF" asp-area="" asp-controller="Home" asp-action="Index">Poll Pall Light</a>
+			<a class="navbar-brand" style="font-family: 'Montserrat', sans-serif; color: #BCE26BFF" asp-area="" asp-controller="Home" asp-action="Index">TapTru</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 			        aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-				<ul class="navbar-nav flex-grow-1">
-					<li class="nav-item">
-						<a class="nav-link text-light" asp-area="" asp-controller="Create" asp-action="Index">Polls</a>
-					</li>
-					@* <li class="nav-item"> *@
-					@* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllQs">All Q's</a> *@
-					@* </li> *@
-					@* <li class="nav-item"> *@
-					@* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllAs">All A's</a> *@
-					@* </li>                     *@
-					<li class="nav-item">
-						<a class="nav-link text-light" asp-area="" asp-controller="Use" asp-action="Index">Take Poll</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">About Poll Pall</a>
-					</li>
-				</ul>
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Create" asp-action="Index">Create Polls</a>
+                    </li>
+                    @* <li class="nav-item"> *@
+                    @* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllQs">All Q's</a> *@
+                    @* </li> *@
+                    @* <li class="nav-item"> *@
+                    @* 	<a class="nav-link text-light" asp-area="" asp-controller="Delete" asp-action="AllAs">All A's</a> *@
+                    @* </li>                     *@
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Use" asp-action="Index">Take Poll</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="About">About Poll Pall</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Tutorial">Tutorial</a>
+                    </li>
+                </ul>
 				<partial name="_LoginPartial" />
 			</div>
 		</div>
