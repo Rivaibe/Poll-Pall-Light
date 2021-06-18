@@ -10,10 +10,10 @@
 </div>
 
 @{
-	TempData["ItemPID"] = Model.Poll.ID;
+	TempData["ItemPId"] = Model.Poll.ID;
 	
 	var qRoot = new QItem();
-	foreach (var q in Model.QItems.Where(q => q.ID == Model.Poll.QRootID)){
+	foreach (var q in Model.QItems.Where(q => q.ID == Model.NextQId)){
 		qRoot = q;
 	}
 }
@@ -30,7 +30,7 @@
 					<th></th>
 				</tr>
 			@{
-				foreach (var a in Model.AItems.Where(x => x.QItemID == Model.Poll.QRootID)){
+				foreach (var a in Model.AItems.Where(x => x.QItemID == Model.NextQId)){
 					<tr>
 						<td>
 							<div class="d-flex justify-content-sm-around align-items-sm-center">

@@ -8,10 +8,10 @@
 	</div>
 </div>
 
-<div style="font-family: 'Montserrat', sans-serif" class="container">
+<div style="font-family: 'Montserrat', sans-serif" class="container position-relative">
 	<div class="row">
 		<div class="col-sm">
-			<table class="table table-borderless col-sm w-50">
+			<table class="table table-borderless col-sm" style="width: 40rem">
 				<tr>
 					<th>
 					</th>
@@ -32,22 +32,22 @@
 									<div class="card-header">
 										<h5 style="color: #79a4d7">Aantal Q's: @i</h5>
 									</div>
-									<div class="card-body" style="height: 10rem">
+									<div class="card-body" style="height: 10.5rem">
 										<a class="alert-link" style="color: #bce26b; font-size: 1.8rem" asp-controller="Create" asp-action="QView" asp-route-id="@p.ID">@p.Title</a>
 										<div class="mt-1">
 											<p>@p.Description</p>
 										</div>
 									</div>
-									<div class="card-footer row">
+									<div class="card-footer d-flex justify-content-sm-around">
 										<form class="form" asp-controller="Delete" asp-action="DeletePItem" method="post">
 											<button asp-route-id="@p.ID" asp-controller="Delete" asp-action="DeletePItem" style="width: 7rem; height: 3rem; background: #d96363; color: #393939"
 											        type="submit" class="btn btn-danger font-weight-bold border-0" onclick="return confirm('Are you sure you want to delete poll item: @p.Title')">Delete</button>
 										</form>
-										<form class="form ml-3" asp-controller="Edit" asp-action="EditPItem" method="post">
+										<form class="form" asp-controller="Edit" asp-action="EditPItem" method="post">
 											<button asp-route-id="@p.ID" asp-controller="Edit" asp-action="EditPItem" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"
 											        type="submit" class="btn btn-warning font-weight-bold border-0">Edit</button>
 										</form>
-										<form class="form ml-3" asp-controller="Create" asp-action="QView" method="get">
+										<form class="form" asp-controller="Create" asp-action="QView" method="get">
 											<button asp-route-id="@p.ID" asp-controller="Create" asp-action="QView" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf"
 											        type="submit" class="btn btn-primary font-weight-bold border-0 GreenHoverTextButton">Go to Q's</button>
 										</form>
@@ -60,7 +60,7 @@
 			</table>
 		</div>
 		
-		<div class="card bg-dark position-fixed" style="z-index:50; top: 25.5%; right: 18%; width: 25rem">
+		<div class="card bg-dark position-sticky" style="z-index:50; top: 25.5%; right: 18%; width: 25rem; height: 40rem; margin-top: 2.3rem; margin-bottom: 2.7rem">
 			<div class="card-header">
 				<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
 			</div>
@@ -76,15 +76,17 @@
 					</div>
 					<div>
 						<label></label>
-						<textarea class="form-control bg-dark text-light" rows="10" placeholder="Give your new poll a description." asp-for="PollDescription"></textarea>
+						<textarea class="form-control bg-dark text-light" rows="8" placeholder="Give your new poll a description." asp-for="PollDescription"></textarea>
 					</div>
 					<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Create Poll">
 				</form>
+				<div class="d-flex flex-sm-column justify-content-sm-around align-items-sm-center" style="height: 7rem">
+					<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-up"></i></a>
+					<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
+				</div>
 			</div>
 		</div>
 
-		<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary font-weight-bold border-0 position-fixed text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:50; top: 72%; right: 23%">Sort Poll's By Name <i class="fas fa-arrow-circle-up"></i></a>
-		<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary font-weight-bold border-0 position-fixed text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:50; top: 76%; right: 23%">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
 	</div>
 </div>
 
