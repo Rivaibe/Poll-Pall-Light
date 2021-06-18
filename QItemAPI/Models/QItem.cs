@@ -15,6 +15,7 @@ namespace QItemAPI.Models
         public int ID { get; set; }
         public int? PollID { get; set; }
         public string Title { get; set; }
+        public bool EndPoll { get; set; }
 
     }
 }
