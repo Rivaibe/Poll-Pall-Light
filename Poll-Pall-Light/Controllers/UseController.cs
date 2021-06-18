@@ -31,7 +31,7 @@ namespace Poll_Pall_Light.Controllers
         }
         public async Task<IActionResult> TakePoll(int? id)
         {
-            ViewData["userName"] = HttpContext.User.Identity?.Name;
+            // ViewData["userName"] = HttpContext.User.Identity?.Name;
             
             var p = new PItemUseModel
             {
@@ -42,7 +42,8 @@ namespace Poll_Pall_Light.Controllers
 
             var l = new List<AItem>();
 
-            foreach (var x in q){
+            foreach (var x in q)
+            {
                 var a = await _aService.GetAItemsByQId(x.ID);
                 l.AddRange(a);
             }
@@ -51,6 +52,10 @@ namespace Poll_Pall_Light.Controllers
             p.AItems = l;
             
             return View(p); 
+        }
+        public IActionResult NextQ(int? id)
+        {
+            return RedirectToAction("");
         }
     }
 }
