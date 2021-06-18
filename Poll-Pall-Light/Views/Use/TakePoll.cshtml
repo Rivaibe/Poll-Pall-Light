@@ -1,8 +1,45 @@
+@using QItemAPI.Models
+@using AItemAPI.Models
 @model PItemUseModel
 
 <div class="container" style="font-family: 'Montserrat', sans-serif; padding-left: 0; padding-right: 0">
 	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
 		<h1>@Model.Poll.Title</h1>
-		<h2>Poll by: @ViewData["userName"]</h2>
+		@* <h2>Poll by: @ViewData["userName"]</h2> *@
+	</div>
+</div>
+
+@{
+	var qRoot = new QItem();
+	foreach (var q in Model.QItems.Where(q => q.ID == Model.Poll.QRootID)){
+		qRoot = q;
+	}
+}
+<div class="card bg-dark text-light">
+	<div class="card-header">
+		<h3 class="text-center h-25">@qRoot.Title</h3>
+	</div>
+	<div class="card-body" style="padding: 2rem 4rem">
+		<form asp-controller="Use" asp-action="NextQ" method="post" class="form-group">
+			<table class="table table-borderless">
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			@{
+				foreach (var a in Model.AItems.Where(x => x.QItemID == Model.Poll.QRootID)){
+					<tr>
+						<td>
+							<div class="d-flex justify-content-sm-around align-items-sm-center">
+								<p class="text-light mr-5" style="width: 10rem; margin: 0!important;">@a.Title</p>
+								<button asp-route-id="@a.ID" asp-controller="Use" asp-action="NextQ" type="submit" class="btn btn-primary font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"><i class="fas fa-check"></i></button>	
+							</div>
+						</td>					
+					</tr>
+				}
+			}
+			</table>
+		</form>	
 	</div>
 </div>
