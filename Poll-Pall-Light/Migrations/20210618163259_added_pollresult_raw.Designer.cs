@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PollAPI.Models;
 
 namespace Poll_Pall_Light.Migrations
 {
     [DbContext(typeof(PollContext))]
-    partial class PollContextModelSnapshot : ModelSnapshot
+    [Migration("20210618163259_added_pollresult_raw")]
+    partial class added_pollresult_raw
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace Poll_Pall_Light.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("bit");
 
                     b.Property<int>("QRootID")
                         .HasColumnType("int");
@@ -62,9 +61,6 @@ namespace Poll_Pall_Light.Migrations
                     b.Property<int>("QId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.ToTable("PollCurrentResults");
@@ -95,39 +91,6 @@ namespace Poll_Pall_Light.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PollResults");
-                });
-
-            modelBuilder.Entity("PollAPI.Models.PollVariables", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Boolean")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("Number")
-                        .HasColumnType("float");
-
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("PollId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("PollVariables");
                 });
 #pragma warning restore 612, 618
         }

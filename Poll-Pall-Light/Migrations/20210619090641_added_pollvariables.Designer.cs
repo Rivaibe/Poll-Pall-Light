@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PollAPI.Models;
 
 namespace Poll_Pall_Light.Migrations
 {
     [DbContext(typeof(PollContext))]
-    partial class PollContextModelSnapshot : ModelSnapshot
+    [Migration("20210619090641_added_pollvariables")]
+    partial class added_pollvariables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace Poll_Pall_Light.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("bit");
 
                     b.Property<int>("QRootID")
                         .HasColumnType("int");
@@ -110,8 +109,8 @@ namespace Poll_Pall_Light.Migrations
                     b.Property<bool>("Boolean")
                         .HasColumnType("bit");
 
-                    b.Property<double>("Number")
-                        .HasColumnType("float");
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("Picture")
                         .HasColumnType("varbinary(max)");

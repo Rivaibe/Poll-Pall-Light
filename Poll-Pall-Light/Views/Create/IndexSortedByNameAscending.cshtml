@@ -2,90 +2,219 @@
 @using Microsoft.EntityFrameworkCore
 @model PItemViewModel
 
-<div class="container" style="font-family: 'Montserrat', sans-serif; padding-left: 0; padding-right: 0">
-	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
-		<h1>Poll's</h1>
-	</div>
+<div class="bg-dark text-center text-light d-flex justify-content-sm-center align-items-sm-center position-sticky" style="font-family: 'Montserrat', sans-serif; height: 8rem; margin: 0 5rem 2rem 5rem; border-radius: 0.3rem">
+	<h1>Poll's</h1>
 </div>
 
-<div style="font-family: 'Montserrat', sans-serif" class="container position-relative">
-	<div class="row">
-		<div class="col-sm" style="width: 20rem">
-			<table class="table table-borderless col-sm" style="width: 40rem">
-				<tr>
-					<th>
-					</th>
-				</tr>
-				@{
-					
-					foreach (var p in Model.Polls){
+<div style="font-family: 'Montserrat', sans-serif; padding: 0 5rem 0 5rem!important; margin: 0!important;" class="maincontainer position-relative d-flex flex-sm-row justify-content-sm-between align-items-baseline">
+	@*<div class="card bg-dark position-sticky" style="z-index:50; top: 10%; width: 25rem; height: 40rem; margin-top: 2.3rem; margin-bottom: 2.7rem">
+		<div class="card-header">
+			<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
+		</div>
+		<div class="card-body text-light">
+			<form asp-controller="Create" asp-action="CreatePoll" method="post" class="form-group">
+				<div class="text-center mt-3">
+					<h4 style="color: #BCE26BFF">Configure your A's</h4>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>A's with only text ?</label>
+					<label class="switch">
+						<input asp-for="AText" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>A's with only images ?</label>
+					<label class="switch">
+						<input asp-for="AImages" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>A's with text & images ?</label>
+					<label class="switch">
+						<input asp-for="AImagesText" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>A's with results ?</label>
+					<label class="switch">
+						<input asp-for="AResult" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="text-center mt-3">
+					<h4 style="color: #BCE26BFF">Configure your Q's</h4>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>Q's with only text ?</label>
+					<label class="switch">
+						<input asp-for="QText" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>Q's with only images ?</label>
+					<label class="switch">
+						<input asp-for="QImages" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>Q's with text & images ?</label>
+					<label class="switch">
+						<input asp-for="QImagesText" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Configure poll Poll">
+			</form>
+		</div>
+	</div>*@
+	<div>
+		<table class="table table-borderless" style="width: 60rem; margin-right: 0!important;">
+			@{
+				
+				foreach (var p in Model.Polls){
 
-						var i = 0;
-						
-						foreach (var q in Model.QItems){
-							if (q.PollID == p.ID)
-								i++;
-						}
-						<tr>
-							<td>
-								<div class="card mb-3 bg-dark text-light">
-									<div class="card-header">
-										<h5 style="color: #79a4d7">Aantal Q's: @i</h5>
-									</div>
-									<div class="card-body" style="height: 10rem">
-										<a class="alert-link" style="color: #bce26b; font-size: 1.8rem" asp-controller="Create" asp-action="QView" asp-route-id="@p.ID">@p.Title</a>
-										<div class="mt-1">
-											<p>@p.Description</p>
-										</div>
-									</div>
-									<div class="card-footer d-flex justify-content-sm-around">
-										<form class="form" asp-controller="Delete" asp-action="DeletePItem" method="post">
-											<button asp-route-id="@p.ID" asp-controller="Delete" asp-action="DeletePItem" style="width: 7rem; height: 3rem; background: #d96363; color: #393939"
-											        type="submit" class="btn btn-danger font-weight-bold border-0" onclick="return confirm('Are you sure you want to delete poll item: @p.Title')">Delete</button>
-										</form>
-										<form class="form" asp-controller="Edit" asp-action="EditPItem" method="post">
-											<button asp-route-id="@p.ID" asp-controller="Edit" asp-action="EditPItem" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"
-											        type="submit" class="btn btn-warning font-weight-bold border-0">Edit</button>
-										</form>
-										<form class="form" asp-controller="Create" asp-action="QView" method="get">
-											<button asp-route-id="@p.ID" asp-controller="Create" asp-action="QView" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf"
-											        type="submit" class="btn btn-primary font-weight-bold border-0 GreenHoverTextButton">Go to Q's</button>
-										</form>
+					var i = 0;
+					
+					foreach (var q in Model.QItems){
+						if (q.PollID == p.ID)
+							i++;
+					}
+					<tr>
+						<td>
+							<div class="card mb-3 bg-dark text-light">
+								<div class="card-header">
+									<h5 style="color: #79a4d7">Aantal Q's: @i</h5>
+								</div>
+								<div class="card-body" style="height: 10.5rem">
+									<a class="alert-link" style="color: #bce26b; font-size: 1.8rem" asp-controller="Create" asp-action="QView" asp-route-id="@p.ID">@p.Title</a>
+									<div class="mt-1">
+										<p>@p.Description</p>
 									</div>
 								</div>
-							</td>
-						</tr>
-					}
+								<div class="card-footer d-flex justify-content-sm-around">
+									<form class="form" asp-controller="Delete" asp-action="DeletePItem" method="post">
+										<button asp-route-id="@p.ID" asp-controller="Delete" asp-action="DeletePItem" style="width: 7rem; height: 3rem; background: #d96363; color: #393939"
+												type="submit" class="btn btn-danger font-weight-bold border-0" onclick="return confirm('Are you sure you want to delete poll item: @p.Title')">Delete</button>
+									</form>
+									<form class="form" asp-controller="Edit" asp-action="EditPItem" method="post">
+										<button asp-route-id="@p.ID" asp-controller="Edit" asp-action="EditPItem" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"
+												type="submit" class="btn btn-warning font-weight-bold border-0">Edit</button>
+									</form>
+									<form class="form" asp-controller="Create" asp-action="QView" method="get">
+										<button asp-route-id="@p.ID" asp-controller="Create" asp-action="QView" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf"
+												type="submit" class="btn btn-primary font-weight-bold border-0 GreenHoverTextButton">Go to Q's</button>
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
 				}
-			</table>
-		</div>
-		
-		<div class="card bg-dark position-sticky" style="z-index:50; top: 25.5%; right: 18%; width: 25rem; height: 40rem; margin-top: 2.3rem; margin-bottom: 2.7rem">
-			<div class="card-header">
-				<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
-			</div>
-			<div class="card-body text-light">
-				<form asp-controller="Create" asp-action="CreatePoll" method="post" class="form-group">
-					<div>
-						<label></label>
-						<input class="form-control bg-dark text-light" placeholder="Give your new poll a title." asp-for="PollTitle"/>
-					</div>
-					<div>
-						<label></label>
-						<input class="form-control bg-dark text-light" placeholder="Give your first Q a title." asp-for="QTitle"/>
-					</div>
-					<div>
-						<label></label>
-						<textarea class="form-control bg-dark text-light" rows="8" placeholder="Give your new poll a description." asp-for="PollDescription"></textarea>
-					</div>
-					<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Create Poll">
-				</form>
-				<div class="d-flex flex-sm-column justify-content-sm-around align-items-sm-center" style="height: 7rem">
-					<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-up"></i></a>
-					<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
-				</div>
-			</div>
-		</div>
-
+			}
+		</table>
 	</div>
+
+	<div class="card bg-dark position-sticky" style="z-index:50; top: 10%; left: 5%; width: 30rem; height: 44rem; margin-top: 0.7rem; margin-bottom: 2.7rem; align-self: start!important;">
+		<div class="card-header">
+			<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
+		</div>
+		<div class="card-body text-light">
+			<form asp-controller="Create" asp-action="CreatePoll" method="post" class="form-group">
+				<div>
+					<label></label>
+					<input class="form-control bg-dark text-light" placeholder="Give your new poll a title." asp-for="PollTitle"/>
+				</div>
+				<div>
+					<label></label>
+					<input class="form-control bg-dark text-light" placeholder="Give your first Q a title." asp-for="QTitle"/>
+				</div>
+				<div>
+					<label></label>
+					<textarea class="form-control bg-dark text-light" rows="8" placeholder="Give your new poll a description." asp-for="PollDescription"></textarea>
+				</div>
+				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
+					<label>Private</label>
+					<label class="switch">
+						<input asp-for="IsPrivate" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Create Poll">
+			</form>
+			<div class="d-flex flex-sm-column justify-content-sm-around align-items-sm-center" style="height: 7rem">
+				<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-up"></i></a>
+				<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
+			</div>
+		</div>
+	</div>	
 </div>
+
+<style>
+	/* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #5A6268;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #B5B5B5;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    input:checked + .slider:before {
+        background-color: #BCE26BFF;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #5A6268;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+

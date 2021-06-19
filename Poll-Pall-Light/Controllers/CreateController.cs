@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AItemAPI.Models;
 using AItemAPI.Services;
+using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -135,7 +137,8 @@ namespace Poll_Pall_Light.Controllers
                 Title = pItemViewModel.PollTitle,
                 Description = pItemViewModel.PollDescription,
                 QRootID = q.ID,
-                UserId = currentUserId
+                UserId = currentUserId,
+                IsPrivate = pItemViewModel.IsPrivate
             };
             _pollService.AddPItem(p);
 
@@ -154,7 +157,7 @@ namespace Poll_Pall_Light.Controllers
         /// <returns></returns>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult CreateQItem(QItemViewModel qItemViewModel)
+        public async Task<IActionResult> CreateQItem(QItemViewModel qItemViewModel)
         {
             int x = Convert.ToInt32(TempData["idCurrent"]);
  
@@ -165,8 +168,33 @@ namespace Poll_Pall_Light.Controllers
                 PollID = x
             };
             _qService.AddQItem(q);
-            
-            return RedirectToAction("QView", new {id = q.PollID});
+            var i = await _qService.GetLastQItemByPollId(x);
+
+            var p = new PollVariables
+            {
+                QId = i.ID,
+                PollId = x,
+                Boolean = qItemViewModel.QBool,
+                Picture = ImageToByteArraybyMemoryStream(qItemViewModel.Image),
+                Text = qItemViewModel.PollVariables.Text,
+                Number = qItemViewModel.PollVariables.Number
+            };
+
+            var qiv = new QItemViewModel
+            {
+                QItem = i,
+                PollVariables = p,
+                Image = qItemViewModel.Image,
+                QBool = qItemViewModel.QBool,
+                QImage = qItemViewModel.QImage,
+                QText = qItemViewModel.QText,
+                QNumber = qItemViewModel.QNumber
+                
+            };
+
+            _pollService.AddPollVariableItem(p);
+
+            return View(qiv);
         }
         
         /// <summary>
@@ -235,6 +263,7 @@ namespace Poll_Pall_Light.Controllers
            // TODO -Give poll id with x 
            
             var y = Convert.ToInt32(TempData["idCurrent"]);
+            var pId = Convert.ToInt32(TempData["id"]);
             
             var q = await _qService.GetQItemByID(id);
             
@@ -244,11 +273,13 @@ namespace Poll_Pall_Light.Controllers
             {
                 Title = q.Title,
                 AItems = aList,
-                QConnectedByPollId = await _qService.GetQItemsByPollId(q.PollID)
+                QConnectedByPollId = await _qService.GetQItemsByPollId(q.PollID),
+                PollId = pId
             };
 
             ViewData["Qid"] = id;
             ViewData["Pid"] = y;
+            ViewData["pId"] = pId;
             
             return View(a);
         }
@@ -264,19 +295,26 @@ namespace Poll_Pall_Light.Controllers
         {
             var i = Convert.ToInt32(TempData["idQ"]);
 
-            var y = Convert.ToInt32(TempData["idP"]);
+            var y = Convert.ToInt32(TempData["p"]);
             
             var a = new AItem
             {
                 Title = aItemViewModel.AItem.Title,
                 QItemID = i,
                 QID = aItemViewModel.QId,
-                isChecked = false
+                isChecked = aItemViewModel.rightAnswer
             };
             
             _aService.AddAItem(a);
             
-            return RedirectToAction("AView", new {id = i, pollId = y});
+            return RedirectToAction("AView", new {id = i});
         }
+        
+        private static byte[] ImageToByteArraybyMemoryStream(Image image)
+        {
+            var ms = new MemoryStream();
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return ms.ToArray();
+        }        
     }
 }

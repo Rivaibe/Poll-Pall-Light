@@ -4,14 +4,16 @@ using AItemAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Poll_Pall_Light.Migrations.AItem
 {
     [DbContext(typeof(AItemContext))]
-    partial class AItemContextModelSnapshot : ModelSnapshot
+    [Migration("20210618191647_added_aitem_value_and_image")]
+    partial class added_aitem_value_and_image
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
