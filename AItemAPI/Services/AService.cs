@@ -62,7 +62,7 @@ namespace AItemAPI.Services
         
         public void DeleteAItemsByQId(int? id)
         {
-            var a = _context.AItems.Where(i => i.QItemID == id);
+            var a = _context.AItems.Where(r => r.QItemID == id);
             if (a.Any())
                 _context.AItems.RemoveRange(a);
             _context.SaveChanges();           
