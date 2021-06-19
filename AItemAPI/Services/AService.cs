@@ -54,7 +54,7 @@ namespace AItemAPI.Services
         
         public void DeleteAItem(int? id)
         {
-            var a = _context.AItems.FirstOrDefault(i => i.ID == id);
+            var a = _context.AItems.FirstOrDefault(r => r.ID == id);
             if (a != null)
                 _context.AItems.Remove(a);
             _context.SaveChanges();           

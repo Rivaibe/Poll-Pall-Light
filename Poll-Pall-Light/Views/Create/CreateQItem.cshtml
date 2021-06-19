@@ -106,10 +106,9 @@
 				</div>
 				<div style="margin-bottom: 1rem">
 					<div class="d-flex justify-content-sm-between align-items-sm-center">
-						@*<label asp-for="PollVariables.Picture" class="custom-file-upload main-button-hover">
-							<input type="file" asp-for="PollVariables.Picture" class="form-control bg-dark text-light" placeholder="Image?"/>
-						</label>*@
-						<input type="file" asp-for="Image" placeholder="Image?">
+						<label asp-for="Image" class="custom-file-upload main-button-hover">
+							<input type="file" asp-for="Image" class="form-control bg-dark text-light" placeholder="Image?"/>
+						</label>
 						<label class="switch">
 							<input asp-for="QImage" type="checkbox">
 							<span class="slider round"></span>
@@ -140,9 +139,9 @@
 </div>
 
 <style>
-/*	input[type="file"] {
+	input[type="file"] {
 		display: none;
-	}*/
+	}
 	 
 	.custom-file-upload {
 		border: 1px solid #ccc;

@@ -4,6 +4,10 @@ using PollAPI.Models;
 
 namespace PollAPI.Services {
     public interface IPollService {
+        /// <summary>
+        /// Poll
+        /// </summary>
+        /// <returns></returns>
         Task<List<Poll>> GetPolls();
         Task<List<Poll>> GetPollsByUserId(string id);
         Task<List<Poll>> SortPollsByNameByPollId(string id);
@@ -13,5 +17,21 @@ namespace PollAPI.Services {
         void AddPItem(Poll poll);
         void UpdatePItem(int? id);
         void DeletePItem(int? id);
+        
+        
+        /// <summary>
+        /// Poll Results
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<PollResult>> GetPollResultsByPollId(int? id);
+        Task<List<PollCurrentResult>> GetCurrentPollResultsByUserId(string id);
+        void AddResultItem(PollResult pollResult);
+        
+        /// <summary>
+        /// Poll Variables
+        /// </summary>
+        /// <param name="pollVariables"></param>
+        void AddPollVariableItem(PollVariables pollVariables);
     }
 }
