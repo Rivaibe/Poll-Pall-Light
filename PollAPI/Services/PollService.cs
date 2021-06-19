@@ -118,7 +118,13 @@ namespace PollAPI.Services
             if (pollVariables != null)
                 _context.PollVariables.Add(pollVariables);
             _context.SaveChanges();
-        }       
-        
+        }
+
+        public async Task<List<PollVariables>> GetPollVariablesByPollAndQId(int? pId, int? qId)
+        {
+            var l = await _context.PollVariables.Where(x => x.PollId == pId).ToListAsync();
+
+            return l.Where(y => y.QId == qId).ToList();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Net.Mime;
 using System.Web.Helpers;
 using AItemAPI.Models;
+using Microsoft.AspNetCore.Http;
 using PollAPI.Models;
 using QItemAPI.Models;
 using QnAAPI.Services;
@@ -19,6 +20,7 @@ namespace Poll_Pall_Light.Models
         public string PollTitle { get; set; }
         [AllowNull]
         public List<QItem> QItems { get; set; }
+        public List<PollVariables> VariablesList { get; set; }
         public List<AItem> AItems { get; set; }
         public QCreateViewModel QCreateViewModel { get; set; }
         public PollVariables PollVariables { get; set; }
@@ -26,7 +28,7 @@ namespace Poll_Pall_Light.Models
         public bool QImage { get; set; }
         public bool QBool { get; set; }
         public bool QNumber { get; set; }
-        public Bitmap Image { get; set; }
+        public IFormFile Image { get; set; }
         public string ImagePath { get; set; }
     }
 }

@@ -33,5 +33,7 @@ namespace PollAPI.Services {
         /// </summary>
         /// <param name="pollVariables"></param>
         void AddPollVariableItem(PollVariables pollVariables);
+        public Task<List<PollVariables>> GetPollVariablesByPollAndQId(int? pId, int? qId);
+
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PollAPI.Models;
 
 namespace Poll_Pall_Light.Migrations
 {
     [DbContext(typeof(PollContext))]
-    partial class PollContextModelSnapshot : ModelSnapshot
+    [Migration("20210619214103_added_poll_check_variables")]
+    partial class added_poll_check_variables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
