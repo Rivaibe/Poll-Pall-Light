@@ -197,11 +197,6 @@ namespace Poll_Pall_Light.Controllers
             return View(qiv);
         }
         
-        /// <summary>
-        /// Q View
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> QView(int? id)
         {
