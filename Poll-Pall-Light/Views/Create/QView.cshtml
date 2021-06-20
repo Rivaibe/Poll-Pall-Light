@@ -30,39 +30,41 @@
 								<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem">@q.Title</h3>
 								@{
 									if (Model != null){
-										// Only textbox
-										if (Model.QText && !Model.QImage && !Model.QNumber){
-											<input type="text" placeholder="Your Textbox">
+										foreach (var l in Model.VariablesList.Where(x => x.QId == q.ID)){
+											// Only textbox
+    										if (l.QText && !l.QImage && !l.QNumber){
+    											<input type="text" placeholder="Your Textbox">
+    										}
+    										// Textbox and image
+    										if (l.QText && l.QImage && !l.QNumber){
+    											<input type="text" placeholder="Your Textbox">
+    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+    										}
+    										// Textbox, image and number
+    										if (l.QText && l.QImage && l.QNumber){
+    											<input type="text" placeholder="Your Textbox">
+    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">																	
+    											<input type="text" placeholder="Your Number">
+    										}
+    										// Only image
+    										if (l.QImage && !l.QText && !l.QNumber){
+    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+    										}
+    										// Only number
+    										if (!l.QImage && !l.QText && l.QNumber){
+    											<input type="text" placeholder="Your Number">
+    										}
+    										// Textbox and number
+    										if (!l.QImage && l.QText && l.QNumber){
+    											<input type="text" placeholder="Your Textbox">
+    											<input type="text" placeholder="Your Number">
+    										}
+    										// image and number
+    										if (l.QImage && !l.QText && l.QNumber){
+    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">																	
+    											<input type="text" placeholder="Your Number">
+    										}																			
 										}
-										// Textbox and image
-										if (Model.QText && Model.QImage && !Model.QNumber){
-											<input type="text" placeholder="Your Textbox">
-											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(Model.PollVariables.Picture))" alt="">
-										}
-										// Textbox, image and number
-										if (Model.QText && Model.QImage && Model.QNumber){
-											<input type="text" placeholder="Your Textbox">
-											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(Model.PollVariables.Picture))" alt="">																	
-											<input type="text" placeholder="Your Number">
-										}
-										// Only image
-										if (Model.QImage && !Model.QText && !Model.QNumber){
-											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(Model.PollVariables.Picture))" alt="">
-										}
-										// Only number
-										if (!Model.QImage && !Model.QText && Model.QNumber){
-											<input type="text" placeholder="Your Number">
-										}
-										// Textbox and number
-										if (!Model.QImage && Model.QText && Model.QNumber){
-											<input type="text" placeholder="Your Textbox">
-											<input type="text" placeholder="Your Number">
-										}
-										// image and number
-										if (Model.QImage && !Model.QText && Model.QNumber){
-											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(Model.PollVariables.Picture))" alt="">																	
-											<input type="text" placeholder="Your Number">
-										}									
 									}
 								}
 							</div>
@@ -91,7 +93,7 @@
 			<h3 class="text-center" style="color: #BCE26BFF">Create a new Q</h3>
 		</div>
 		<div class="card-body text-light">
-			<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group">
+			<form asp-controller="Create" asp-action="CreateQItem" method="post" class="form-group" enctype="multipart/form-data">
 				<div style="margin-bottom: 1rem">
 					<input class="form-control bg-dark text-light" placeholder="Q Header" asp-for="QCreateViewModel.Title"/>
 				</div>
@@ -106,9 +108,9 @@
 				</div>
 				<div style="margin-bottom: 1rem">
 					<div class="d-flex justify-content-sm-between align-items-sm-center">
-						@*<label asp-for="PollVariables.Picture" class="custom-file-upload main-button-hover">
-							<input type="file" asp-for="PollVariables.Picture" class="form-control bg-dark text-light" placeholder="Image?"/>
-						</label>*@
+						@* <label asp-for="PollVariables.Picture" class="custom-file-upload main-button-hover">Image? *@
+						@* 	<input type="file" asp-for="PollVariables.Picture" class="form-control bg-dark text-light" placeholder="Image?"/> *@
+						@* </label> *@
 						<input type="file" asp-for="Image" placeholder="Image?">
 						<label class="switch">
 							<input asp-for="QImage" type="checkbox">
@@ -140,9 +142,9 @@
 </div>
 
 <style>
-/*	input[type="file"] {
-		display: none;
-	}*/
+	/*input[type="file"] {*/
+	/*	display: none;*/
+	/*}*/
 	 
 	.custom-file-upload {
 		border: 1px solid #ccc;

@@ -19,5 +19,13 @@ namespace PollAPI.Models
         public bool Boolean { get; set; }
         [AllowNull]
 		public byte[] Picture { get; set; }
+        [AllowNull]
+        public bool QText { get; set; }
+        [AllowNull]
+        public bool QImage { get; set; }
+        [AllowNull]
+        public bool QBool { get; set; }
+        [AllowNull]
+        public bool QNumber { get; set; }
     }
 }
