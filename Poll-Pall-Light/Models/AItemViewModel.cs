@@ -10,7 +10,8 @@ namespace Poll_Pall_Light.Models
     public class AItemViewModel 
     {
         public string Title { get; set; }
-        public string QTitle { get; set; }
+        public int PollId { get; set; }
+        public bool rightAnswer { get; set; }
         public AItem AItem { get; set; }
         public List<AItem> AItems { get; set; }
         public string QId { get; set; }

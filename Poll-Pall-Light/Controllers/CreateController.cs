@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AItemAPI.Models;
 using AItemAPI.Services;
+using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -135,7 +137,8 @@ namespace Poll_Pall_Light.Controllers
                 Title = pItemViewModel.PollTitle,
                 Description = pItemViewModel.PollDescription,
                 QRootID = q.ID,
-                UserId = currentUserId
+                UserId = currentUserId,
+                IsPrivate = pItemViewModel.IsPrivate
             };
             _pollService.AddPItem(p);
 
@@ -154,7 +157,7 @@ namespace Poll_Pall_Light.Controllers
         /// <returns></returns>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult CreateQItem(QItemViewModel qItemViewModel)
+        public async Task<IActionResult> CreateQItem(QItemViewModel qItemViewModel)
         {
             int x = Convert.ToInt32(TempData["idCurrent"]);
  
@@ -165,8 +168,63 @@ namespace Poll_Pall_Light.Controllers
                 PollID = x
             };
             _qService.AddQItem(q);
+            var i = await _qService.GetLastQItemByPollId(x);
+
+            var qI = await _qService.GetQItemsByPollId(x);
+
+            var aList = new List<AItem>();
+
+            foreach (var g in qI){
+                var aI = await _aService.GetAItemsByQId(g.ID);
+                aList.AddRange(aI);
+            }
+
+            var p = new PollVariables
+            {
+                QId = i.ID,
+                PollId = x,
+                Boolean = qItemViewModel.QBool,
+                Text = qItemViewModel.PollVariables.Text,
+                Number = qItemViewModel.PollVariables.Number,
+                QBool = qItemViewModel.QBool,
+                QImage = qItemViewModel.QImage,
+                QText = qItemViewModel.QText,
+                QNumber = qItemViewModel.QNumber               
+            };
+
+            var qiv = new QItemViewModel
+            {
+                QItem = i,
+                AItems = aList,
+                QItems = qI,
+                Image = qItemViewModel.Image,
+                QBool = p.QBool,
+                QImage = p.QImage,
+                QText = p.QText,
+                QNumber = p.QNumber
+                
+            };
             
-            return RedirectToAction("QView", new {id = q.PollID});
+            if (qItemViewModel.Image is { Length: > 0 }){
+                await using var fs1 = qItemViewModel.Image.OpenReadStream();
+                await using var ms1 = new MemoryStream();
+                await fs1.CopyToAsync(ms1);
+                var p1 = ms1.ToArray();
+                p.Picture = p1;
+            }
+            
+            _pollService.AddPollVariableItem(p);
+            
+            var pL = new List<PollVariables>();
+
+            foreach (var qLi in qI){
+                var n = await _pollService.GetPollVariablesByPollAndQId(x, qLi.ID);
+                pL.AddRange(n);
+            }
+
+            qiv.VariablesList = pL;
+            
+            return View(qiv);
         }
         
         /// <summary>
@@ -182,18 +240,36 @@ namespace Poll_Pall_Light.Controllers
             QItemViewModel pnQ;
             
             var y = Convert.ToInt32(TempData["idCurrent"]);
-            
-            if(id != 0)
-                p = await _pollService.GetPollById(id);
-            else
+
+            int? idSure = 0;
+
+            List<QItem> l;
+
+            if (id != 0){
+                 p = await _pollService.GetPollById(id);
+                 l = await _qService.GetQItemsByPollId(id);
+                 idSure = id;
+            }
+
+            else{
                 p = await _pollService.GetPollById(y);
+                l = await _qService.GetQItemsByPollId(y);
+                idSure = y;
+            }
             
             _initQ = new List<QItem>
             {
                 new(){PollID = p.ID, Title = "Init Q"}
             };
+
+            var pL = new List<PollVariables>();
             
-            var l = await _qService.GetQItemsByPollId(p.ID);
+
+            foreach (var qLi in l){
+                var n = await _pollService.GetPollVariablesByPollAndQId(idSure, qLi.ID);
+                pL.AddRange(n);
+            }
+
             
             if (l.Count == 0)
             {
@@ -201,6 +277,7 @@ namespace Poll_Pall_Light.Controllers
                 {
                     AItems = await _aService.GetAItems(),
                     QCreateViewModel = new QCreateViewModel(),
+                    VariablesList = pL,
                     QItems = _initQ,
                     PollTitle = p.Title,
                     PollID = p.ID
@@ -212,6 +289,7 @@ namespace Poll_Pall_Light.Controllers
                  {
                      AItems = await _aService.GetAItems(),
                      QCreateViewModel = new QCreateViewModel(),
+                     VariablesList = pL,
                      QItems = l,
                      PollTitle = p.Title,
                      PollID = p.ID
@@ -235,6 +313,7 @@ namespace Poll_Pall_Light.Controllers
            // TODO -Give poll id with x 
            
             var y = Convert.ToInt32(TempData["idCurrent"]);
+            var pId = Convert.ToInt32(TempData["id"]);
             
             var q = await _qService.GetQItemByID(id);
             
@@ -244,11 +323,13 @@ namespace Poll_Pall_Light.Controllers
             {
                 Title = q.Title,
                 AItems = aList,
-                QConnectedByPollId = await _qService.GetQItemsByPollId(q.PollID)
+                QConnectedByPollId = await _qService.GetQItemsByPollId(q.PollID),
+                PollId = pId
             };
 
             ViewData["Qid"] = id;
             ViewData["Pid"] = y;
+            ViewData["pId"] = pId;
             
             return View(a);
         }
@@ -264,19 +345,19 @@ namespace Poll_Pall_Light.Controllers
         {
             var i = Convert.ToInt32(TempData["idQ"]);
 
-            var y = Convert.ToInt32(TempData["idP"]);
+            var y = Convert.ToInt32(TempData["p"]);
             
             var a = new AItem
             {
                 Title = aItemViewModel.AItem.Title,
                 QItemID = i,
                 QID = aItemViewModel.QId,
-                isChecked = false
+                isChecked = aItemViewModel.rightAnswer
             };
             
             _aService.AddAItem(a);
             
-            return RedirectToAction("AView", new {id = i, pollId = y});
+            return RedirectToAction("AView", new {id = i});
         }
     }
 }

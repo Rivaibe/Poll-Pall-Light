@@ -17,6 +17,10 @@ namespace PollAPI.Services
             _context = context;
         }
         
+        /// <summary>
+        /// Poll
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Poll>> GetPolls()
         {
             return await _context.Polls.ToListAsync();
@@ -81,6 +85,46 @@ namespace PollAPI.Services
             if (a != null)
                 _context.Polls.Remove(a);
             _context.SaveChanges();
+        }
+        
+        /// <summary>
+        /// Poll Results
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<PollResult>> GetPollResultsByPollId(int? id)
+        {
+            return await _context.PollResults.Where(x => x.PollId == id).ToListAsync();
+        } 
+        
+        public async Task<List<PollCurrentResult>> GetCurrentPollResultsByUserId(string id)
+        {
+            return await _context.PollCurrentResults.Where(x => x.UserId == id).ToListAsync();
+        }  
+        
+        public void AddResultItem(PollResult pollResult)
+        {
+            if (pollResult != null)
+                _context.PollResults.Add(pollResult);
+            _context.SaveChanges();
+        }
+        
+        /// <summary>
+        /// Poll Variables
+        /// </summary>
+        /// <param name="pollVariables"></param>
+        public void AddPollVariableItem(PollVariables pollVariables)
+        {
+            if (pollVariables != null)
+                _context.PollVariables.Add(pollVariables);
+            _context.SaveChanges();
+        }
+
+        public async Task<List<PollVariables>> GetPollVariablesByPollAndQId(int? pId, int? qId)
+        {
+            var l = await _context.PollVariables.Where(x => x.PollId == pId).ToListAsync();
+
+            return l.Where(y => y.QId == qId).ToList();
         }
     }
 }
