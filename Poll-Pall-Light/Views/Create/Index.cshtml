@@ -2,65 +2,23 @@
 @using Microsoft.EntityFrameworkCore
 @model PItemViewModel
 
+@{
+	ViewData["Title"] = "Tap's";
+}
+
 <div class="bg-dark text-center text-light d-flex justify-content-sm-center align-items-sm-center position-sticky" style="font-family: 'Montserrat', sans-serif; height: 8rem; margin: 0 5rem 2rem 5rem; border-radius: 0.3rem">
-	<h1>Poll's</h1>
+	<h1>Tap's</h1>
 </div>
 
 <div style="font-family: 'Montserrat', sans-serif; padding: 0 5rem 0 5rem!important; margin: 0!important;" class="maincontainer position-relative d-flex flex-sm-row justify-content-sm-between align-items-baseline">
-	@*<div class="card bg-dark position-sticky" style="z-index:50; top: 10%; width: 25rem; height: 40rem; margin-top: 2.3rem; margin-bottom: 2.7rem">
-		<div class="card-header">
-			<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
-		</div>
-		<div class="card-body text-light">
-			<form asp-controller="Create" asp-action="CreatePoll" method="post" class="form-group">
-				<div class="text-center mt-3">
-					<h4 style="color: #BCE26BFF">Configure your A's</h4>
-				</div>
-				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
-					<label>A's with only text ?</label>
-					<label class="switch">
-						<input asp-for="AText" type="checkbox">
-						<span class="slider round"></span>
-					</label>
-				</div>
-				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
-					<label>A's with only images ?</label>
-					<label class="switch">
-						<input asp-for="AImages" type="checkbox">
-						<span class="slider round"></span>
-					</label>
-				</div>
-				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
-					<label>A's with text & images ?</label>
-					<label class="switch">
-						<input asp-for="AImagesText" type="checkbox">
-						<span class="slider round"></span>
-					</label>
-				</div>
-				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
-					<label>A's with results ?</label>
-					<label class="switch">
-						<input asp-for="AResult" type="checkbox">
-						<span class="slider round"></span>
-					</label>
-				</div>
-
-				<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 GreenHoverTextButton" style="background: #5A6268; color: #bfbfbf" value="Configure poll Poll">
-			</form>
-		</div>
-	</div>*@
 	<div>
 		<table class="table table-borderless" style="width: 60rem; margin-right: 0!important;">
 			@{
 				
 				foreach (var p in Model.Polls){
 
-					var i = 0;
-					
-					foreach (var q in Model.QItems){
-						if (q.PollID == p.ID)
-							i++;
-					}
+					var i = Model.QItems.Count(q => q.PollID == p.ID);
+
 					<tr>
 						<td>
 							<div class="card mb-3 bg-dark text-light box-shadow">
@@ -94,25 +52,20 @@
 			}
 		</table>
 	</div>
-	
 
 	<div class="card bg-dark position-sticky box-shadow" style="z-index:50; top: 10%; left: 5%; width: 30rem; height: 43rem; margin-top: 0.7rem; margin-bottom: 2.7rem; align-self: start!important;">
 		<div class="card-header">
-			<h3 class="text-center" style="color: #BCE26BFF">Create a new Poll</h3>
+			<h3 class="text-center" style="color: #BCE26BFF">Create a new Tap</h3>
 		</div>
 		<div class="card-body text-light">
 			<form asp-controller="Create" asp-action="CreatePoll" method="post" class="form-group">
 				<div>
 					<label></label>
-					<input class="form-control bg-dark text-light" placeholder="Give your new poll a title." asp-for="PollTitle"/>
+					<input class="form-control bg-dark text-light" placeholder="Give your new Tap a title." asp-for="PollTitle"/>
 				</div>
 				<div>
 					<label></label>
-					<input class="form-control bg-dark text-light" placeholder="Give your first Q a title." asp-for="QTitle"/>
-				</div>
-				<div>
-					<label></label>
-					<textarea class="form-control bg-dark text-light" rows="8" placeholder="Give your new poll a description." asp-for="PollDescription"></textarea>
+					<textarea class="form-control bg-dark text-light" rows="8" placeholder="Give your new Tap a description." asp-for="PollDescription"></textarea>
 				</div>
 				<div class="d-flex justify-content-sm-between align-items-sm-center mt-3" style="height: 2.5rem">
 					<label>Private</label>
@@ -121,11 +74,11 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-				<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 main-button-hover" style="background: #5A6268; color: #bfbfbf" value="Create Poll">
+				<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 main-button-hover" style="background: #5A6268; color: #bfbfbf" value="Create Tapp">
 			</form>
 			<div class="d-flex flex-sm-column justify-content-sm-around align-items-sm-center" style="height: 7rem">
-				<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary main-button-hover font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-up"></i></a>
-				<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary main-button-hover font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Poll's By Name <i class="fas fa-arrow-circle-down"></i></a>
+				<a asp-controller="Create" asp-action="IndexSortedByNameAscending" class="btn btn-primary main-button-hover font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Tap's By Name <i class="fas fa-arrow-circle-up"></i></a>
+				<a asp-controller="Create" asp-action="IndexSortedByNameDescending" class="btn btn-primary main-button-hover font-weight-bold border-0 text-center" style="width: 15rem; height: 2rem; background: #5A6268; color: #bfbfbf; z-index:51">Sort Tap's By Name <i class="fas fa-arrow-circle-down"></i></a>
 			</div>
 		</div>
 	</div>	
