@@ -1,14 +1,12 @@
 @model List<PollAPI.Models.Poll>
 
-<div class="container" style="font-family: 'Montserrat', sans-serif; margin-bottom: 0">
-	<div class="jumbotron bg-dark text-center text-light" style="font-family: 'Montserrat', sans-serif">
-		<h1>Welcome to <span style="color: #BCE26BFF">TapTru</span></h1>
-		<br>
-		<h2>This is our selection of polls you can take. Please select one to get started.</h2>
-	</div>
+<div class="bg-dark text-center text-light d-flex flex-sm-column justify-content-sm-around position-sticky" style="font-family: 'Montserrat', sans-serif; height: 8rem; margin: 0 5rem 2rem 5rem; border-radius: 0.3rem; align-items: center">
+	<h1>Welkom bij <span style="color: #BCE26BFF">Poll Pall Light</span></h1>
+	<h2>Hier kan je alle poll's doornemen en natuurlijk ook deelnemen!</h2>
 </div>
-<div class="container d-flex flex-sm-wrap justify-content-sm-between" style="font-family: 'Montserrat', sans-serif; height: auto">
-	@foreach (var p in Model)
+
+<div class="maincontainer d-flex flex-sm-wrap justify-content-sm-between" style="font-family: 'Montserrat', sans-serif; height: auto; padding: 0 5rem">
+	@foreach (var p in Model.Where(x => x.IsPrivate == false))
 	{
 		<div class="card bg-dark m-4" style="width: 20rem; height: 20rem">
 			<div class="card-header text-center">

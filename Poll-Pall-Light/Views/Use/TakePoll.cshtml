@@ -15,6 +15,7 @@
 	var qRoot = new QItem();
 	foreach (var q in Model.QItems.Where(q => q.ID == Model.Poll.QRootID)){
 		qRoot = q;
+		TempData["qId"] = q.ID;
 	}
 }
 <div class="card bg-dark text-light">

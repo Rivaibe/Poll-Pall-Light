@@ -32,7 +32,13 @@ namespace Poll_Pall_Light.Migrations.QItem
                     b.Property<int?>("PollID")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("QPicture")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
