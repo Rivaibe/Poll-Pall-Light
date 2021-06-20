@@ -21,5 +21,9 @@ namespace Poll_Pall_Light.Controllers
         {
             return null;
         }
+        public IActionResult EditAItem()
+        {
+            return null;
+        }
     }
 }
