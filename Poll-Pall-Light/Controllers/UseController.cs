@@ -20,6 +20,8 @@ namespace Poll_Pall_Light.Controllers
         private readonly IQService _qService;
         private readonly IPollService _pollService;
 
+        private ResultViewModel _currentResults = new();
+
         public UseController(IAService aService, IQService qService, IPollService pollService)
         {
             _aService = aService;
@@ -63,7 +65,11 @@ namespace Poll_Pall_Light.Controllers
         
         public async Task<IActionResult> NextQ(int? id)
         {
+            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
             var currentPId = Convert.ToInt32(TempData["itemPId"]);
+            var currentQId = Convert.ToInt32(TempData["qId"]);
             
             var p = new PItemUseModel
             {
@@ -86,16 +92,63 @@ namespace Poll_Pall_Light.Controllers
             
             var n = await _aService.GetAItemByID(id);
             
-            n.isChecked = true;
-
             foreach (var i in p.QItems.Where(i => i.ID == Convert.ToInt32(n.QID))){
                 p.NextQId = i.ID;
             }
 
             if (n.QID == "0")
                 p.EndPoll = true;
+
+            var result = new PollResult
+            {
+                PollId = p.Poll.ID,
+                QId = currentQId,
+                AId = n.ID,
+                UserId = userId,
+                Date = DateTime.Now
+            };
+
+            var currentResult = new PollCurrentResult
+            {
+                PollId = p.Poll.ID,
+                QId = currentQId,
+                AId = n.ID,
+                UserId = userId
+            };
             
-            return p.EndPoll == false ? View(p) : View("EndView");
+            _pollService.AddResultItem(result);
+            
+            return p.EndPoll == false ? View(p) : RedirectToAction("EndView");
+        }
+
+        public async Task<IActionResult> EndView()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _currentResults.CurrentResults = await _pollService.GetCurrentPollResultsByUserId(userId);
+
+            foreach (var r in _currentResults.CurrentResults){
+                var q = await _qService.GetQItemByID(r.QId);
+                var a = await _aService.GetAItemByID(r.AId);
+                if (a.isChecked == false){
+                    _currentResults.Result.Add("Wrong");
+                    _currentResults.QTitle.Add(q.Title);
+                }
+                else{
+                    _currentResults.Result.Add("Right");
+                    _currentResults.QTitle.Add(q.Title);
+                }
+            }
+
+            var res = _currentResults;
+
+            _currentResults = null;
+            
+            return View(res);
+        }
+        public IActionResult PrivatePolls()
+        {
+            return View();
         }
     }
 }
