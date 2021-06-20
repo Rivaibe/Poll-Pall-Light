@@ -14,5 +14,9 @@ namespace PollAPI.Models
             Database.EnsureCreated();
         }
         public DbSet<Poll> Polls { get; set; }
+        public DbSet<PollCurrentResult> PollCurrentResults { get; set; }
+        public DbSet<PollResult> PollResults { get; set; }
+        
+        public DbSet<PollVariables> PollVariables { get; set; }
     }
 }
