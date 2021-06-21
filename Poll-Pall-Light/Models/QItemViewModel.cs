@@ -15,7 +15,7 @@ namespace Poll_Pall_Light.Models
 {
     public class QItemViewModel 
     {
-        public int PollID { get; set; }
+        public int? PollID { get; set; }
         public QItem QItem { get; set; }
         public string PollTitle { get; set; }
         [AllowNull]

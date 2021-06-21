@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AItemAPI.Models;
 using AItemAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -51,14 +53,7 @@ namespace Poll_Pall_Light.Controllers
             
             return View(p);
         }
-        public IActionResult EditQItem()
-        {
-            return null;
-        }
-        public IActionResult EditAItem()
-        {
-            return null;
-        }
+        
         public IActionResult UpdatePItem(PItemEditViewModel pItemEditViewModel)
         {
             var p = new Poll
@@ -73,6 +68,91 @@ namespace Poll_Pall_Light.Controllers
             _pollService.UpdatePItem(p);
             
             return RedirectToAction("Index", "Create");
+        }        
+        
+        public async Task<IActionResult> EditQItem(int? id)
+        {
+            var qItem = await _qService.GetQItemByID(id);
+
+            var pItem = await _pollService.GetPollById(qItem.PollID);
+
+            var qItemList = await _qService.GetQItemsByPollId(qItem.PollID);
+
+            var aItemList = new List<AItem>();
+
+            var qItemVariableList = new List<PollVariables>();
+
+            foreach (var q in qItemList){
+                aItemList.AddRange(await _aService.GetAItemsByQId(q.ID));
+                qItemVariableList.AddRange(await _pollService.GetPollVariablesByPollAndQId(qItem.PollID, q.ID));
+            }
+
+            var qItemEditViewModel = new QItemEditViewModel
+            {
+                AItems = aItemList,
+                QItem = qItem,
+                QCreateViewModel = new QCreateViewModel(),
+                VariablesList = qItemVariableList,
+                QItems = qItemList,
+                PollTitle = pItem.Title,
+                PollID = pItem.ID,
+                PollVariables = await _pollService.GetSinglePollVariableByPollAndQId(qItem.PollID, qItem.ID)
+            };
+            
+            return View(qItemEditViewModel);
         }
+        
+        public IActionResult EditAItem()
+        {
+            return null;
+        }
+
+        
+        public async Task<IActionResult> UpdateQItem(QItemEditViewModel qItemEditViewModel, int id)
+        {
+            var qItem = await _qService.GetQItemByID(id);
+
+            var currentPollVariableItem = await _pollService.GetSinglePollVariableByPollAndQId(qItem.PollID, qItem.ID);
+            
+            // TODO - update poll variable
+            
+            var newPollVariable = new PollVariables
+            {
+                ID = currentPollVariableItem.ID,
+                PollId = currentPollVariableItem.PollId,
+                QId = currentPollVariableItem.QId,
+                Boolean = qItemEditViewModel.NewPollVariables.Boolean,
+                Text = qItemEditViewModel.NewPollVariables.Text,
+                Number = qItemEditViewModel.NewPollVariables.Number,
+                QBool = qItemEditViewModel.QBool,
+                QImage = qItemEditViewModel.QImage,
+                QNumber = qItemEditViewModel.QNumber,
+                QText = qItemEditViewModel.QText
+            };
+            
+            if (qItemEditViewModel.Image is { Length: > 0 }){
+                await using var fs1 = qItemEditViewModel.Image.OpenReadStream();
+                await using var ms1 = new MemoryStream();
+                await fs1.CopyToAsync(ms1);
+                var p1 = ms1.ToArray();
+                newPollVariable.Picture = p1;
+            }               
+            
+            var pItem = await _pollService.GetPollById(qItem.PollID);               
+            
+            _pollService.UpdatePollVariableByPollIdAndQId(newPollVariable);
+
+            var newQItem = new QItem
+            {
+                ID = id,
+                Title = qItemEditViewModel.QCreateViewModel.Title,
+                PollID = qItem.PollID,
+                EndPoll = qItem.EndPoll
+            };
+            
+            _qService.UpdateQItem(newQItem);
+            
+            return RedirectToAction("QView", "Create", new {pItem.ID}, null);
+        }       
     }
 }

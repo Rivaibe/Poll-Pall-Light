@@ -48,7 +48,7 @@ namespace QItemAPI.Services
             var a = new QItem();
             if (id != null)
             {
-                a = await _context.Qitems.FirstOrDefaultAsync(i => i.ID == id);
+                a = await _context.Qitems.AsNoTracking().FirstOrDefaultAsync(i => i.ID == id);
             }
             return a;
         }       
