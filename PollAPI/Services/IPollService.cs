@@ -33,7 +33,9 @@ namespace PollAPI.Services {
         /// </summary>
         /// <param name="pollVariables"></param>
         void AddPollVariableItem(PollVariables pollVariables);
+        void UpdatePollVariableByPollIdAndQId(PollVariables pollVariables);
         public Task<List<PollVariables>> GetPollVariablesByPollAndQId(int? pId, int? qId);
+        public Task<PollVariables> GetSinglePollVariableByPollAndQId(int? pId, int? qId);
         public Task<List<PollVariables>> GetPollVariablesByPollAndAAndQId(int? pId, int? qId, int? aId);
         public List<PollVariables> GetPollVariablesByPollAndQIdNa(int? pId, int? qId);
         public List<PollVariables> GetPollVariablesByPollAndAAndQIdNa(int? pId, int? qId, int? aId);        
