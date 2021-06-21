@@ -102,7 +102,7 @@
 			<h3 class="text-center" style="color: #BCE26BFF">Create a new A</h3>
 		</div>
 		<div class="card-body text-light">
-			<form asp-controller="Create" asp-action="CreateAItem" method="post" class="form-group" enctype="multipart/form-data">
+			<form asp-controller="Create" asp-action="CreateAItem" method="post" asp-route-id="@Model.QItemId" class="form-group" enctype="multipart/form-data">
 				<div style="margin-bottom: 1rem">
 					<div class="d-flex justify-content-sm-between align-items-sm-center">
 						<input class="form-control bg-dark text-light" placeholder="Text / Answer" style="width: 40%" asp-for="PollVariables.Text"/>
