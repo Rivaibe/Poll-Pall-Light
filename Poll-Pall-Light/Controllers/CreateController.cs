@@ -122,10 +122,10 @@ namespace Poll_Pall_Light.Controllers
         /// <returns></returns>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult CreatePoll(PItemViewModel pItemViewModel)
+        public async Task<IActionResult> CreatePoll(PItemViewModel pItemViewModel)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             var p = new Poll()
             {
                 Title = pItemViewModel.PollTitle,
@@ -133,7 +133,24 @@ namespace Poll_Pall_Light.Controllers
                 UserId = currentUserId,
                 IsPrivate = pItemViewModel.IsPrivate
             };
+            
             _pollService.AddPItem(p);
+            
+            var pItem = await _pollService.LastPollByUserId(currentUserId);
+            
+            var qItem = new QItem
+            {
+                PollID = pItem.ID,
+                Title = "Root Q"
+            };
+            
+            _qService.AddQItem(qItem);
+
+            var currentQItem = await _qService.GetLastQItemByPollId(pItem.ID);
+
+            pItem.QRootID = currentQItem.ID;
+            
+            _pollService.UpdatePItem(pItem);
 
             return RedirectToAction("Index");
         }
@@ -148,111 +165,79 @@ namespace Poll_Pall_Light.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateQItem(QItemViewModel qItemViewModel, int? id)
         {
-            if (ModelState.IsValid){
-                
-                var q = new QItem
-                {
-                    Title = qItemViewModel.QCreateViewModel.Title,
-                    EndPoll = false,
-                    PollID = id
-                };
-                
-                _qService.AddQItem(q);
-
-                var i = await _qService.GetLastQItemByPollId(id);
-
-                var qI = await _qService.GetQItemsByPollId(id);
-
-                if (qI == null){
-                    var pItem = await _pollService.GetPollById(id);
-                    pItem.QRootID = i.ID;
-                }
-                
-                var aList = new List<AItem>();
-
-                foreach (var g in qI){
-                    var aI = await _aService.GetAItemsByQId(g.ID);
-                    aList.AddRange(aI);
-                }
-
-                var p = new PollVariables
-                {
-                    QId = i.ID,
-                    AId = 0,
-                    PollId = id,
-                    Boolean = qItemViewModel.QBool,
-                    Text = qItemViewModel.PollVariables.Text,
-                    Number = qItemViewModel.PollVariables.Number,
-                    QBool = qItemViewModel.QBool,
-                    QImage = qItemViewModel.QImage,
-                    QText = qItemViewModel.QText,
-                    QNumber = qItemViewModel.QNumber               
-                };
-
-                var qiv = new QItemViewModel
-                {
-                    QItem = i,
-                    AItems = aList,
-                    PollID = id,
-                    QItems = qI,
-                    Image = qItemViewModel.Image,
-                    QBool = p.QBool,
-                    QImage = p.QImage,
-                    QText = p.QText,
-                    QNumber = p.QNumber
-                    
-                };
-                
-                if (qItemViewModel.Image is { Length: > 0 }){
-                    await using var fs1 = qItemViewModel.Image.OpenReadStream();
-                    await using var ms1 = new MemoryStream();
-                    await fs1.CopyToAsync(ms1);
-                    var p1 = ms1.ToArray();
-                    p.Picture = p1;
-                }
-                
-                _pollService.AddPollVariableItem(p);
-                
-                var pLV = new List<PollVariables>();
-
-                foreach (var qLi in qI){
-                    var n = await _pollService.GetPollVariablesByPollAndQId(id, qLi.ID);
-                    pLV.AddRange(n);
-                }
-
-                qiv.VariablesList = pLV;
-                
-                return View(qiv);
-            }
-
-            var qItemList = await _qService.GetQItemsByPollId(id);
-            
-            var aListq = new List<AItem>();
-
-            foreach (var g in qItemList){
-                var aI = await _aService.GetAItemsByQId(g.ID);
-                aListq.AddRange(aI);
-            }
-
-            var qivm = new QItemViewModel
+            var q = new QItem
             {
-                AItems = aListq,
-                PollID = id,
-                QItems = qItemList,
-                Image = qItemViewModel.Image
+                Title = qItemViewModel.QCreateViewModel.Title,
+                EndPoll = false,
+                PollID = id
+            };
+            
+            _qService.AddQItem(q);
+
+            var i = await _qService.GetLastQItemByPollId(id);
+
+            var qI = await _qService.GetQItemsByPollId(id);
+
+            if (qI == null){
+                var pItem = await _pollService.GetPollById(id);
+                pItem.QRootID = i.ID;
+            }
+            
+            var aList = new List<AItem>();
+
+            foreach (var g in qI){
+                var aI = await _aService.GetAItemsByQId(g.ID);
+                aList.AddRange(aI);
+            }
+
+            var p = new PollVariables
+            {
+                QId = i.ID,
+                AId = 0,
+                PollId = id,
+                Boolean = qItemViewModel.QBool,
+                Text = qItemViewModel.PollVariables.Text,
+                Number = qItemViewModel.PollVariables.Number,
+                QBool = qItemViewModel.QBool,
+                QImage = qItemViewModel.QImage,
+                QText = qItemViewModel.QText,
+                QNumber = qItemViewModel.QNumber               
             };
 
-            var pL = new List<PollVariables>();
+            var qiv = new QItemViewModel
+            {
+                QItem = i,
+                AItems = aList,
+                PollID = id,
+                QItems = qI,
+                Image = qItemViewModel.Image,
+                QBool = p.QBool,
+                QImage = p.QImage,
+                QText = p.QText,
+                QNumber = p.QNumber
+                
+            };
+            
+            if (qItemViewModel.Image is { Length: > 0 }){
+                await using var fs1 = qItemViewModel.Image.OpenReadStream();
+                await using var ms1 = new MemoryStream();
+                await fs1.CopyToAsync(ms1);
+                var p1 = ms1.ToArray();
+                p.Picture = p1;
+            }
+            
+            _pollService.AddPollVariableItem(p);
+            
+            var pLV = new List<PollVariables>();
 
-            foreach (var qLi in qItemList){
+            foreach (var qLi in qI){
                 var n = await _pollService.GetPollVariablesByPollAndQId(id, qLi.ID);
-                pL.AddRange(n);
+                pLV.AddRange(n);
             }
 
-            qivm.VariablesList = pL;
+            qiv.VariablesList = pLV;
             
-            return View(qivm);
-            
+            return View(qiv);
         }
         
         /// <summary>

@@ -31,6 +31,11 @@ namespace PollAPI.Services
             return await _context.Polls.Where(p => p.UserId == id).ToListAsync();
         }
         
+        public async Task<Poll> LastPollByUserId(string id)
+        {
+            return await _context.Polls.OrderBy(p => p.ID).LastOrDefaultAsync();
+        }       
+        
         public async Task<List<Poll>> SortPollsByNameByPollId(string id)
         {
             return await _context.Polls.Where(p => p.UserId == id).OrderBy(x => x.Title).ToListAsync();
