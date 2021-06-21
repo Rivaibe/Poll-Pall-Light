@@ -10,6 +10,7 @@ namespace PollAPI.Services {
         /// <returns></returns>
         Task<List<Poll>> GetPolls();
         Task<List<Poll>> GetPollsByUserId(string id);
+        Task<Poll> LastPollByUserId(string id);
         Task<List<Poll>> SortPollsByNameByPollId(string id);
         Task<List<Poll>> SortPollsByNameByPollIdDescending(string id);
         Task<Poll> GetPollById(int? id);

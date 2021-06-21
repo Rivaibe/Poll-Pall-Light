@@ -111,7 +111,6 @@
 			<form asp-controller="Create" asp-action="CreateQItem" method="post" asp-route-id="@Model.PollID" class="form-group" enctype="multipart/form-data">
 				<div style="margin-bottom: 1rem">
 					<input class="form-control bg-dark text-light" placeholder="Q Header / Can not be empty" asp-for="QCreateViewModel.Title"/>
-					<span style="color: #d96363; margin-top: 0.3rem; font-weight: bold; text-align: center" asp-validation-for="QCreateViewModel.Title"></span>
 				</div>
 				<div style="margin-bottom: 1rem">
 					<div class="d-flex justify-content-sm-between align-items-sm-center">
