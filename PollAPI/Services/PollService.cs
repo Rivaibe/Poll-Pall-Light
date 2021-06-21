@@ -71,11 +71,10 @@ namespace PollAPI.Services
             _context.SaveChanges();
         }
         
-        public void UpdatePItem(int? id)
+        public void UpdatePItem(Poll poll)
         {
-            var p = _context.Polls.FirstOrDefault(x => x.ID == id);
-            if (p != null)
-                _context.Polls.Update(p);
+            if (poll != null)
+                _context.Polls.Update(poll);
             _context.SaveChanges();
         }
         
@@ -125,6 +124,31 @@ namespace PollAPI.Services
             var l = await _context.PollVariables.Where(x => x.PollId == pId).ToListAsync();
 
             return l.Where(y => y.QId == qId).ToList();
+        }
+        
+        public async Task<List<PollVariables>> GetPollVariablesByPollAndAAndQId(int? pId, int? qId, int? aId)
+        {
+            var l = await _context.PollVariables.Where(x => x.PollId == pId).ToListAsync();
+
+            var c =  l.Where(y => y.QId == qId).ToList();
+
+            return c.Where(n => n.AId == aId).ToList();
+        }
+        
+        public  List<PollVariables> GetPollVariablesByPollAndQIdNa(int? pId, int? qId)
+        {
+            var l = _context.PollVariables.Where(x => x.PollId == pId).ToList();
+
+            return l.Where(y => y.QId == qId).ToList();
+        }
+        
+        public List<PollVariables> GetPollVariablesByPollAndAAndQIdNa(int? pId, int? qId, int? aId)
+        {
+            var l = _context.PollVariables.Where(x => x.PollId == pId).ToList();
+
+            var c =  l.Where(y => y.QId == qId).ToList();
+
+            return c.Where(n => n.AId == aId).ToList();
         }
     }
 }

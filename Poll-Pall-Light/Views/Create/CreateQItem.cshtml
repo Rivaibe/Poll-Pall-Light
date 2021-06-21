@@ -1,10 +1,22 @@
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.CodeAnalysis.CSharp
+@using PollAPI.Models
 @model QItemViewModel
 
 @{
 	TempData["id"] = ViewData["PollID"];
+	ViewData["Title"] = "Q View";
 
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+
 <div class="bg-dark text-center text-light d-flex flex-sm-column justify-content-sm-around position-sticky" style="font-family: 'Montserrat', sans-serif; height: 8rem; margin: 0 5rem 2rem 5rem; border-radius: 0.3rem; align-items: center">
 	<h1>Q Items van</h1>
 	<h2>@Model.PollTitle</h2>
@@ -22,48 +34,51 @@
 				var i = Model.AItems.Count(x => x.QItemID == q.ID);
 				<tr>
 					<td>
-						<div class="card mb-3 bg-dark text-light">
-							<div class="card-header">
+						<div class="card mb-3 bg-dark text-light" style="height: 25rem">
+							<div class="card-header text-center">
 								<h5 style="color:#d4d269"> Aantal A's: @i</h5>
 							</div>
-							<div class="card-body">
-								<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem">@q.Title</h3>
+							<div class="card-body text-center d-flex justify-content-sm-around align-items-sm-center flex-sm-wrap">
+								@if (q.Title != null){
+									<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem; width: 100%">@q.Title</h3>
+								}
 								@{
-									if (Model != null){
-										foreach (var l in Model.VariablesList.Where(x => x.QId == q.ID)){
+									if (Model.VariablesList != null){
+										var n = Model.VariablesList.Where(x => x.QId == q.ID).ToList();
+										foreach (var l in n.Where(x => x.AId == 0)){
 											// Only textbox
-    										if (l.QText && !l.QImage && !l.QNumber){
-    											<input type="text" placeholder="Your Textbox">
-    										}
-    										// Textbox and image
-    										if (l.QText && l.QImage && !l.QNumber){
-    											<input type="text" placeholder="Your Textbox">
-    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
-    										}
-    										// Textbox, image and number
-    										if (l.QText && l.QImage && l.QNumber){
-    											<input type="text" placeholder="Your Textbox">
-    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">																	
-    											<input type="text" placeholder="Your Number">
-    										}
-    										// Only image
-    										if (l.QImage && !l.QText && !l.QNumber){
-    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
-    										}
-    										// Only number
-    										if (!l.QImage && !l.QText && l.QNumber){
-    											<input type="text" placeholder="Your Number">
-    										}
-    										// Textbox and number
-    										if (!l.QImage && l.QText && l.QNumber){
-    											<input type="text" placeholder="Your Textbox">
-    											<input type="text" placeholder="Your Number">
-    										}
-    										// image and number
-    										if (l.QImage && !l.QText && l.QNumber){
-    											<img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">																	
-    											<input type="text" placeholder="Your Number">
-    										}																			
+											if (l.QText && !l.QImage && !l.QNumber){
+												<input type="text" placeholder="Your Textbox">
+											}
+											// Textbox and image
+											if (l.QText && l.QImage && !l.QNumber){
+												<input type="text" placeholder="Your Textbox">
+												<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+											}
+											// Textbox, image and number
+											if (l.QText && l.QImage && l.QNumber){
+												<input type="text" placeholder="Your Textbox">
+												<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+												<input type="text" placeholder="Your Number">
+											}
+											// Only image
+											if (l.QImage && !l.QText && !l.QNumber){
+												<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+											}
+											// Only number
+											if (!l.QImage && !l.QText && l.QNumber){
+												<input type="text" placeholder="Your Number">
+											}
+											// Textbox and number
+											if (!l.QImage && l.QText && l.QNumber){
+												<input type="text" placeholder="Your Textbox">
+												<input type="text" placeholder="Your Number">
+											}
+											// image and number
+											if (l.QImage && !l.QText && l.QNumber){
+												<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+												<input type="text" placeholder="Your Number">
+											}
 										}
 									}
 								}
@@ -226,3 +241,4 @@
    		color: #343A40!important;
    	} 
 </style>
+

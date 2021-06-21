@@ -38,6 +38,11 @@ namespace QItemAPI.Services
             return qList;
         }
         
+        public List<QItem> GetQItemsByPollIdNa(int? id)
+        {
+            return _context.Qitems.Where(x => x.PollID == id).ToList();
+        }       
+        
         public async Task<QItem> GetQItemByID(int? id)
         {
             var a = new QItem();
