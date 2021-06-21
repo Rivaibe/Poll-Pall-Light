@@ -6,7 +6,7 @@ namespace PollAPI.Models
     {
         public int ID { get; set; }
         [AllowNull]
-        public int PollId { get; set; }
+        public int? PollId { get; set; }
         [AllowNull]
         public int QId { get; set; }
         [AllowNull]

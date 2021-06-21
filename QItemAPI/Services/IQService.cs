@@ -6,6 +6,7 @@ namespace QItemAPI.Services {
     public interface IQService {
         Task<List<QItem>> GetQItems();
         Task<QItem> GetLastQItemByPollId(int? id);
+        List<QItem> GetQItemsByPollIdNa(int? id);
         Task<List<QItem>> GetQItemsByPollId(int? id);
         Task<QItem> GetQItemByID(int? id);
         void AddQItem(QItem qItem);
