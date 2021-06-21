@@ -1,0 +1,303 @@
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.CodeAnalysis.CSharp
+@using PollAPI.Models
+@model QItemEditViewModel
+
+@{
+	TempData["id"] = ViewData["PollID"];
+	ViewData["Title"] = "Q View";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+
+<div class="bg-dark text-center text-light d-flex flex-sm-column justify-content-sm-around position-sticky" style="font-family: 'Montserrat', sans-serif; height: 8rem; margin: 0 5rem 2rem 5rem; border-radius: 0.3rem; align-items: center">
+	<h1>Q Items van</h1>
+	<h2>@Model.PollTitle</h2>
+</div>
+
+<div style="font-family: 'Montserrat', sans-serif; padding: 0 5rem 0 5rem!important; margin: 0!important;" class="maincontainer position-relative d-flex flex-sm-row justify-content-sm-between align-items-baseline">
+	<div>
+		<table class="table table-borderless" style="width: 60rem; margin-right: 0!important;">
+			<tr>
+				<th>
+				</th>
+			</tr>
+			@if (Model.QItems != null){
+				foreach (var q in Model.QItems){
+					// var x = Model.AItems.Count(a => a.QItemID == q.ID);
+					var i = Model.AItems.Count(x => x.QItemID == q.ID);
+					TempData["idCurrent"] = q.PollID;
+					<tr>
+						<td>
+							<div class="card mb-3 bg-dark text-light" style="height: 25rem">
+								<div class="card-header text-center">
+									<h5 style="color:#d4d269"> Aantal A's: @i</h5>
+								</div>
+								<div class="card-body text-center d-flex justify-content-sm-around align-items-sm-center flex-sm-wrap">
+									@if (q.Title != null){
+										<h3 class="font-weight-bolder" style="color: #85b7ef; font-size: 1.8rem; width: 100%">@q.Title</h3>
+									}
+									@{
+										if (Model.VariablesList != null){
+											var n = Model.VariablesList.Where(x => x.QId == q.ID).ToList();
+											foreach (var l in n.Where(x => x.AId == 0)){
+												// Only textbox
+												if (l.QText && !l.QImage && !l.QNumber){
+													<input type="text" placeholder="Your Textbox">
+												}
+												// Textbox and image
+												if (l.QText && l.QImage && !l.QNumber){
+													<input type="text" placeholder="Your Textbox">
+													<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+												}
+												// Textbox, image and number
+												if (l.QText && l.QImage && l.QNumber){
+													<input type="text" placeholder="Your Textbox">
+													<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+													<input type="text" placeholder="Your Number">
+												}
+												// Only image
+												if (l.QImage && !l.QText && !l.QNumber){
+													<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+												}
+												// Only number
+												if (!l.QImage && !l.QText && l.QNumber){
+													<input type="text" placeholder="Your Number">
+												}
+												// Textbox and number
+												if (!l.QImage && l.QText && l.QNumber){
+													<input type="text" placeholder="Your Textbox">
+													<input type="text" placeholder="Your Number">
+												}
+												// image and number
+												if (l.QImage && !l.QText && l.QNumber){
+													<img style="width:8rem;height:8rem; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(l.Picture))" alt="">
+													<input type="text" placeholder="Your Number">
+												}
+											}
+										}
+									}
+								</div>
+								<div class="card-footer d-flex justify-content-sm-around">
+									<form class="form" asp-controller="Delete" asp-action="DeleteQItem" method="post">
+										<button asp-route-id="@q.ID" asp-controller="Delete" asp-action="DeleteQItem" type="submit" class="btn btn-danger delete-button-hover font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #d96363; color: #393939" onclick="return confirm('Are you sure you want to delete Q item: @q.Title')">Delete</button>
+									</form>
+									<form class="form" asp-controller="Edit" asp-action="EditQItem" method="post">
+										<button asp-route-id="@q.ID" asp-controller="Edit" asp-action="EditQItem" type="submit" class="btn btn-warning main-button-hover font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Edit</button>
+									</form>
+									<form class="form" asp-controller="Create" asp-action="AView" method="get">
+										<button asp-route-id="@q.ID" asp-controller="Create" asp-action="AView" type="submit" class="btn btn-primary main-button-hover font-weight-bold border-0" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;">Go to A's</button>
+									</form>	
+								</div>
+							</div>
+						</td>
+					</tr>
+				}				
+			}
+		</table>
+	</div>
+	
+	@if (Model.PollVariables != null){
+		<div class="card bg-dark position-sticky" style="z-index:50; top: 10%; left: 5%; width: 30rem; height: 34rem; margin-top: 2.2rem; margin-bottom: 2.7rem; align-self: start!important;">
+			<div class="card-header">
+				<h3 class="text-center" style="color: #BCE26BFF">Update Your Q</h3>
+			</div>
+			<div class="card-body text-light">
+				<form asp-controller="Edit" asp-action="UpdateQItem" method="post" asp-route-id="@Model.QItem.ID" class="form-group" enctype="multipart/form-data">
+					<div style="margin-bottom: 1rem">
+						<input class="form-control bg-dark text-light" value="@Model.QItem.Title" placeholder="Q Header / Can not be empty" asp-for="QCreateViewModel.Title"/>
+						<span style="color: #d96363; margin-top: 0.3rem; font-weight: bold; text-align: center" asp-validation-for="QCreateViewModel.Title"></span>
+					</div>
+					<div style="margin-bottom: 1rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							<input class="form-control bg-dark text-light" placeholder="Textbox / Answer" value="@Model.PollVariables.Text" style="width: 40%" asp-for="NewPollVariables.Text"/>
+							<label class="switch">
+								<input asp-for="QText" checked="@Model.PollVariables.QText" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>					
+					</div>
+					<div style="margin-bottom: 1rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							@* <label asp-for="PollVariables.Picture" class="custom-file-upload main-button-hover">Image? *@
+							@* 	<input type="file" asp-for="PollVariables.Picture" class="form-control bg-dark text-light" placeholder="Image?"/> *@
+							@* </label> *@
+							<input type="file" asp-for="Image" placeholder="Image?">
+							<label class="switch">
+								<input asp-for="QImage" checked="@Model.PollVariables.QImage" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>					
+					</div>
+					<div class="d-flex justify-content-sm-between align-items-sm-center" style="margin-bottom: 1rem">
+						<label asp-for="PollVariables.Boolean">A boolean? False / True</label>
+						<label class="switch">
+							<input asp-for="QBool" checked="@Model.PollVariables.QBool" type="checkbox">
+							<span class="slider round"></span>
+						</label>
+					</div>
+					<div style="margin-bottom: 1.5rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							<input class="form-control bg-dark text-light" placeholder="A Number?" value="@Model.PollVariables.Number" style="width: 40%" asp-for="NewPollVariables.Number"/>
+							<label class="switch">
+								<input asp-for="QNumber" checked="@Model.PollVariables.QNumber" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<p class="text-center">You can mix them up as much as you want. Only text? or only images? It's all here.</p>
+					<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 main-button-hover" style="background: #5A6268; color: #bfbfbf" value="Update Q">
+				</form>
+			</div>
+		</div>
+	}
+	else{
+		<div class="card bg-dark position-sticky" style="z-index:50; top: 10%; left: 5%; width: 30rem; height: 34rem; margin-top: 2.2rem; margin-bottom: 2.7rem; align-self: start!important;">
+			<div class="card-header">
+				<h3 class="text-center" style="color: #BCE26BFF">Update Your Q</h3>
+			</div>
+			<div class="card-body text-light">
+				<form asp-controller="Edit" asp-action="UpdateQItem" method="post" asp-route-id="@Model.QItem.ID" class="form-group" enctype="multipart/form-data">
+					<div style="margin-bottom: 1rem">
+						<input class="form-control bg-dark text-light" value="@Model.QItem.Title" placeholder="Q Header / Can not be empty" asp-for="QCreateViewModel.Title"/>
+						<span style="color: #d96363; margin-top: 0.3rem; font-weight: bold; text-align: center" asp-validation-for="QCreateViewModel.Title"></span>
+					</div>
+					<div style="margin-bottom: 1rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							<input class="form-control bg-dark text-light" placeholder="Textbox / Answer" style="width: 40%" asp-for="NewPollVariables.Text"/>
+							<label class="switch">
+								<input asp-for="QText" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>					
+					</div>
+					<div style="margin-bottom: 1rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							@* <label asp-for="PollVariables.Picture" class="custom-file-upload main-button-hover">Image? *@
+							@* 	<input type="file" asp-for="PollVariables.Picture" class="form-control bg-dark text-light" placeholder="Image?"/> *@
+							@* </label> *@
+							<input type="file" asp-for="Image" placeholder="Image?">
+							<label class="switch">
+								<input asp-for="QImage" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>					
+					</div>
+					<div class="d-flex justify-content-sm-between align-items-sm-center" style="margin-bottom: 1rem">
+						<label asp-for="PollVariables.Boolean">A boolean? False / True</label>
+						<label class="switch">
+							<input asp-for="QBool" type="checkbox">
+							<span class="slider round"></span>
+						</label>
+					</div>
+					<div style="margin-bottom: 1.5rem">
+						<div class="d-flex justify-content-sm-between align-items-sm-center">
+							<input class="form-control bg-dark text-light" placeholder="A Number?" style="width: 40%" asp-for="NewPollVariables.Number"/>
+							<label class="switch">
+								<input asp-for="QNumber" type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<p class="text-center">You can mix them up as much as you want. Only text? or only images? It's all here.</p>
+					<input type="submit" class="form-control mt-3 btn font-weight-bold border-0 main-button-hover" style="background: #5A6268; color: #bfbfbf" value="Update Q">
+				</form>
+			</div>
+		</div>		
+	}
+	
+	
+</div>
+
+<style>
+	/*input[type="file"] {*/
+	/*	display: none;*/
+	/*}*/
+	 
+	.custom-file-upload {
+		border: 1px solid #ccc;
+		display: inline-block;
+		width: 40%;
+		border-radius: 0.3rem;
+		padding: 6px 12px;
+		cursor: pointer;
+	}
+	/* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #5A6268;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #B5B5B5;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    input:checked + .slider:before {
+        background-color: #BCE26BFF;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #5A6268;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }	
+    
+   	.main-button-hover:hover{
+   		background: #97b162!important;
+   		color: #343A40!important;
+   	}
+   	.delete-button-hover:hover{
+   		background: #b85252!important;
+   		color: #343A40!important;
+   	} 
+</style>
