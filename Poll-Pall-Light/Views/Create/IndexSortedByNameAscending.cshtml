@@ -36,8 +36,8 @@
 										<button asp-route-id="@p.ID" asp-controller="Delete" asp-action="DeletePItem" style="width: 7rem; height: 3rem; background: #d96363; color: #393939"
 												type="submit" class="btn btn-danger delete-button-hover font-weight-bold border-0" onclick="return confirm('Are you sure you want to delete poll item: @p.Title')">Delete</button>
 									</form>
-									<form class="form" asp-controller="Edit" asp-action="EditPItem" method="post">
-										<button asp-route-id="@p.ID" asp-controller="Edit" asp-action="EditPItem" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"
+									<form class="form" asp-controller="Edit" asp-action="EditP" method="post">
+										<button asp-route-id="@p.ID" asp-controller="Edit" asp-action="EditP" style="width: 7rem; height: 3rem; background: #5A6268; color: #bfbfbf;"
 												type="submit" class="btn btn-warning main-button-hover font-weight-bold border-0">Edit</button>
 									</form>
 									<form class="form" asp-controller="Create" asp-action="QView" method="get">
