@@ -15,7 +15,7 @@ namespace PollAPI.Services {
         Task<Poll> GetPollById(int? id);
         Task<Poll> GetPollByQRootId(int? id);
         void AddPItem(Poll poll);
-        void UpdatePItem(int? id);
+        void UpdatePItem(Poll poll);
         void DeletePItem(int? id);
         
         
@@ -34,6 +34,8 @@ namespace PollAPI.Services {
         /// <param name="pollVariables"></param>
         void AddPollVariableItem(PollVariables pollVariables);
         public Task<List<PollVariables>> GetPollVariablesByPollAndQId(int? pId, int? qId);
-
+        public Task<List<PollVariables>> GetPollVariablesByPollAndAAndQId(int? pId, int? qId, int? aId);
+        public List<PollVariables> GetPollVariablesByPollAndQIdNa(int? pId, int? qId);
+        public List<PollVariables> GetPollVariablesByPollAndAAndQIdNa(int? pId, int? qId, int? aId);        
     }
 }

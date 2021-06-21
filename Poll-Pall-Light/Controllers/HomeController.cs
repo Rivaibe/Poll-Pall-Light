@@ -42,56 +42,14 @@ namespace Poll_Pall_Light.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var a = new AItem();
-            
-            return View(a);
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(AItem aItem)
-        {
-            if (aItem == null)
-                return NotFound();
-            
-            _service.AddAItem(aItem);
-            
-            return RedirectToAction("Index");
-        }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            var a = await _service.GetAItemByID(id);
-            if (a == null)
-                return NotFound();
-            
-            return View(a);
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ConfirmDelete(int? id)
-        {
-            if (id == null)
-                return NotFound();
-            
-            _service.DeleteAItem(id);
-            
-            return RedirectToAction("Index");
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Privacy()
+        {
+            return View();
         }
     }
 }
