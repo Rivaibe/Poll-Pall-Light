@@ -29,7 +29,16 @@ namespace AItemAPI.Services
             
             var a = await _context.AItems.FirstOrDefaultAsync(i => i.ID == id);
             return a;
-        }       
+        }
+        
+        public async Task<AItem> GetLastAItemByQID(int? id)
+        {
+            if (id == null)
+                return null;
+            
+            var a = await _context.AItems.OrderBy(x => x.ID).LastOrDefaultAsync(i => i.QItemID == id);
+            return a;
+        }
         
         public async Task<List<AItem>> GetAItemsByQId(int? id)
         {
@@ -37,6 +46,11 @@ namespace AItemAPI.Services
 
             return aList;
         } 
+        
+        public List<AItem> GetAItemsByQIdNa(int? id)
+        {
+            return _context.AItems.Where(x => x.QItemID == id).ToList();
+        }         
         
         public void AddAItem(AItem aItem)
         {
